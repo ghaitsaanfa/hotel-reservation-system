@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Tamu - The Grand Royale Hotel</title>
+    <link href="data:image/svg+xml,%3Csvg width='48' height='48' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z' fill='%23CF7010'/%3E%3C/svg%3E" rel="icon" type="image/svg+xml"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style type="text/tailwindcss">
+      :root {
+        --primary-color: #cf7010; 
+        --secondary-color: #393028;
+        --background-color: #181411;
+        --card-bg-color: #24211e; 
+        --text-color: #ffffff; 
+        --text-muted-color: #b9ab9d; 
+        --input-bg-color: #2c2825;
+        --input-border-color: #4d4237;
+        --input-focus-border-color: var(--primary-color);
+        --table-header-bg: #2a2724;
+        --table-row-hover-bg: #2f2c29;
+      }
+      body {
+        font-family: "Noto Serif", "Noto Sans", sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        margin: 0;
+      }
+      .header-standard {
+        background-color: var(--background-color);
+        border-bottom: 1px solid var(--secondary-color);
+        color: var(--text-color);
+      }
+      .header-standard .header-brand-icon-color svg { color: var(--primary-color); }
+      .header-standard .header-text-color { color: var(--text-color); }
+      .header-standard .header-nav-link-color { color: var(--text-muted-color); }
+      .header-standard .header-nav-link-color:hover { color: var(--primary-color); }
+      .header-standard .header-nav-link-color.active { color: var(--primary-color); font-weight: 600; }
+
+      .main-content-area { background-color: #1a1816; }
+      .btn-primary { background-color: var(--primary-color); color: var(--text-color); }
+      .btn-primary:hover { background-color: #e08220; }
+      .btn-secondary { background-color: var(--secondary-color); color: var(--text-color); }
+      .btn-secondary:hover { background-color: #4d4237; }
+      
+      .dashboard-card {
+        background-color: var(--card-bg-color);
+        border: 1px solid var(--input-border-color);
+        border-radius: 0.5rem; /* rounded-lg */
+        padding: 1.5rem; /* p-6 */
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      }
+      .dashboard-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 15px -3px rgba(var(--primary-color-rgb, 207, 112, 16), 0.1), 0 4px 6px -2px rgba(var(--primary-color-rgb, 207, 112, 16), 0.05);
+      }
+      .dashboard-card-title {
+        color: var(--primary-color);
+        font-size: 1.125rem; /* text-lg */
+        font-weight: 600; /* font-semibold */
+        margin-bottom: 0.75rem; /* mb-3 */
+      }
+      .dashboard-card-text {
+        color: var(--text-muted-color);
+        font-size: 0.875rem; /* text-sm */
+        margin-bottom: 1rem; /* mb-4 */
+      }
+      .dashboard-card-value {
+        color: var(--text-color);
+        font-size: 1.875rem; /* text-3xl */
+        font-weight: 700; /* font-bold */
+      }
+    </style>
+</head>
+<body class="dark">
+    <div class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <!-- Header untuk Tamu -->
+            <header class="header-standard flex items-center justify-between whitespace-nowrap px-6 md:px-10 py-4 shadow-md">
+                <div class="flex items-center gap-3">
+                    <div class="size-8 header-brand-icon-color">
+                        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M8.25 6h7.5m-7.5 3h7.5m-7.5 3h7.5m-7.5 3h7.5M3 12h18" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </div>
+                    <a href="/tamu/dashboard.html" class="text-xl font-bold leading-tight tracking-[-0.015em] header-text-color">The Grand Royale</a>
+                </div>                <nav class="hidden md:flex flex-1 justify-center items-center gap-4 lg:gap-6">
+                    <a class="header-nav-link-color active text-sm font-medium leading-normal transition-colors" href="/tamu/dashboard.html">Dashboard</a>
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/tamu/kamar.html">Lihat Kamar</a>
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/tamu/reservasi-saya.html">Reservasi Saya</a>
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/tamu/profil.html">Profil Saya</a>
+                </nav>
+                <div class="flex items-center gap-4">
+                    <div id="guestSpecificLinks" class="flex items-center gap-3" style="display: none;">
+                        <a href="/login.html?role=tamu"> 
+                            <button class="btn-secondary flex items-center justify-center rounded-lg h-10 px-4 text-sm font-semibold transition-colors min-w-[84px] hover:bg-opacity-80">Login</button>
+                        </a>
+                    </div>                    <div id="userSpecificLinks" class="flex items-center gap-3" style="display: none;">
+                        <div id="userAvatar" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 shadow-sm border-2 border-[var(--primary-color)] flex items-center justify-center text-white font-bold"></div>
+                        <button id="headerLogoutButton" class="btn-secondary flex items-center justify-center rounded-lg h-10 px-4 text-sm font-semibold transition-colors min-w-[84px] hover:bg-opacity-80">Logout</button>
+                    </div>
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-button" class="md:hidden p-2 rounded-md text-[var(--text-muted-color)] hover:text-[var(--primary-color)] hover:bg-[var(--input-bg-color)] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[var(--primary-color)]">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Mobile Menu, show/hide based on menu state -->
+            <div class="md:hidden hidden" id="mobile-menu">                <div class="space-y-1 px-2 pb-3 pt-2">
+                    <a href="/tamu/dashboard.html" class="bg-[var(--input-bg-color)] text-[var(--primary-color)] block rounded-md px-3 py-2 text-base font-medium" aria-current="page">Dashboard</a>
+                    <a href="/tamu/kamar.html" class="text-[var(--text-muted-color)] hover:bg-[var(--input-bg-color)] hover:text-[var(--primary-color)] block rounded-md px-3 py-2 text-base font-medium">Lihat Kamar</a>
+                    <a href="/tamu/reservasi-saya.html" class="text-[var(--text-muted-color)] hover:bg-[var(--input-bg-color)] hover:text-[var(--primary-color)] block rounded-md px-3 py-2 text-base font-medium">Reservasi Saya</a>
+                    <a href="/tamu/profil.html" class="text-[var(--text-muted-color)] hover:bg-[var(--input-bg-color)] hover:text-[var(--primary-color)] block rounded-md px-3 py-2 text-base font-medium">Profil Saya</a>
+                </div>
+                <!-- Logged in user info and logout for mobile -->
+                <div class="border-t border-[var(--input-border-color)] px-2 py-3 space-y-2">
+                    <div class="flex items-center space-x-3">
+                        <div id="mobileUserAvatar" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 shadow-sm border-2 border-[var(--primary-color)] flex items-center justify-center text-white font-bold">T</div>
+                        <div>
+                            <p id="mobileUserName" class="text-base font-medium text-[var(--text-color)]">Nama Tamu</p>
+                            <p id="mobileUserEmail" class="text-sm font-medium text-[var(--text-muted-color)]">tamu@example.com</p>
+                        </div>
+                    </div>
+                    <button id="mobileHeaderLogoutButton" class="w-full flex items-center justify-center rounded-md bg-[var(--primary-color)] px-3 py-2 text-base font-medium text-white hover:bg-opacity-80 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[var(--primary-color)]">
+                        Logout
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <main class="main-content-area p-6 md:p-10">
+                <div class="mb-8">
+                    <h1 class="text-3xl md:text-4xl font-bold text-[var(--primary-color)]">Selamat Datang, <span id="guestNameDisplay">Tamu</span>!</h1>
+                    <p class="text-lg text-[var(--text-muted-color)]">Ini adalah ringkasan aktivitas Anda di The Grand Royale Hotel.</p>
+                </div>
+
+                <!-- Ringkasan Reservasi -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="dashboard-card">
+                        <h2 class="dashboard-card-title">Reservasi Aktif/Mendatang</h2>
+                        <p class="dashboard-card-text">Jumlah reservasi yang sedang berjalan atau akan datang.</p>
+                        <p id="activeReservationsCount" class="dashboard-card-value">0</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <h2 class="dashboard-card-title">Riwayat Reservasi</h2>
+                        <p class="dashboard-card-text">Jumlah reservasi yang telah selesai atau dibatalkan.</p>
+                        <p id="pastReservationsCount" class="dashboard-card-value">0</p>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">                    <a href="/tamu/kamar.html" class="dashboard-card hover:bg-[var(--input-bg-color)]">
+                        <h2 class="dashboard-card-title"><i class="fas fa-calendar-plus mr-2"></i>Buat Reservasi Baru</h2>
+                        <p class="dashboard-card-text">Pilih kamar dan buat reservasi untuk menginap di hotel kami.</p>
+                    </a>
+                    <a href="/tamu/reservasi-saya.html" class="dashboard-card hover:bg-[var(--input-bg-color)]">
+                        <h2 class="dashboard-card-title"><i class="fas fa-list-alt mr-2"></i>Lihat Reservasi Saya</h2>
+                        <p class="dashboard-card-text">Kelola dan lihat detail reservasi Anda.</p>
+                    </a>
+                    <a href="/tamu/profil.html" class="dashboard-card hover:bg-[var(--input-bg-color)]">
+                        <h2 class="dashboard-card-title"><i class="fas fa-user-edit mr-2"></i>Edit Profil Saya</h2>
+                        <p class="dashboard-card-text">Perbarui informasi pribadi dan preferensi Anda.</p>
+                    </a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="/js/shared/auth.js"></script>
+    <script src="/js/shared/utils.js"></script>
+    <script src="/js/tamu/dashboard.js"></script>
+    <!-- <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> -->
+</body>
+</html>

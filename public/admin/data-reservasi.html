@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Reservasi - Admin - The Grand Royale Hotel</title>
+    <link href="data:image/svg+xml,%3Csvg width='48' height='48' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z' fill='%23CF7010'/%3E%3C/svg%3E" rel="icon" type="image/svg+xml"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style type="text/tailwindcss">
+      :root {
+        --primary-color: #cf7010; 
+        --secondary-color: #393028;
+        --background-color: #181411;
+        --card-bg-color: #24211e; 
+        --text-color: #ffffff; 
+        --text-muted-color: #b9ab9d; 
+        --input-bg-color: #2c2825;
+        --input-border-color: #4d4237;
+        --input-focus-border-color: var(--primary-color);
+        --table-header-bg: #2a2724;
+        --table-row-hover-bg: #2f2c29;
+      }
+      body {
+        font-family: "Noto Serif", "Noto Sans", sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        margin: 0;
+      }
+      .header-standard {
+        background-color: var(--background-color);
+        border-bottom: 1px solid var(--secondary-color);
+        color: var(--text-color);
+      }
+      .header-standard .header-brand-icon-color svg { color: var(--primary-color); }
+      .header-standard .header-text-color { color: var(--text-color); }
+      .header-standard .header-nav-link-color { color: var(--text-muted-color); }
+      .header-standard .header-nav-link-color:hover { color: var(--primary-color); }
+      .header-standard .header-nav-link-color.active { color: var(--primary-color); font-weight: 600; }
+
+      .main-content-area { background-color: #1a1816; }
+      .btn-primary { background-color: var(--primary-color); color: var(--text-color); }
+      .btn-primary:hover { background-color: #e08220; }
+      .btn-secondary { background-color: var(--secondary-color); color: var(--text-color); }
+      .btn-secondary:hover { background-color: #4d4237; }
+      .btn-danger { background-color: #dc2626; color: var(--text-color); }
+      .btn-danger:hover { background-color: #b91c1c; }
+      
+      .form-input, .form-select, .form-textarea {
+        background-color: var(--input-bg-color);
+        border-color: var(--input-border-color);
+        color: var(--text-color);
+        border-radius: 0.375rem;
+        padding: 0.5rem 0.75rem;
+      }
+      .form-input:focus, .form-select:focus, .form-textarea:focus {
+        border-color: var(--input-focus-border-color);
+        box-shadow: 0 0 0 1px var(--input-focus-border-color);
+        outline: none;
+      }
+      .table-container { background-color: var(--card-bg-color); border: 1px solid var(--secondary-color); }
+      .table thead th { background-color: var(--table-header-bg); }
+      .table tbody tr:hover { background-color: var(--table-row-hover-bg); }      .status-badge {
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        display: inline-block;
+        min-width: 100px;
+        text-align: center;
+      }
+      
+      /* Status Reservasi - Consistent with Room Management */
+      .status-reservasi-belum-bayar { background-color: rgb(239 68 68 / 0.2); color: rgb(248 113 113); }
+      .status-reservasi-menunggu-konfirmasi { background-color: rgb(245 158 11 / 0.2); color: rgb(251 191 36); }
+      .status-reservasi-dikonfirmasi { background-color: rgb(34 211 238 / 0.2); color: rgb(34 211 238); }
+      .status-reservasi-check-in { background-color: rgb(16 185 129 / 0.2); color: rgb(34 197 94); }
+      .status-reservasi-check-out { background-color: rgb(107 114 128 / 0.2); color: rgb(156 163 175); }
+      .status-reservasi-dibatalkan { background-color: rgb(239 68 68 / 0.2); color: rgb(248 113 113); }
+      
+      /* Status Pembayaran - Consistent with Room Management */
+      .status-pembayaran-belum-lunas { background-color: rgb(239 68 68 / 0.2); color: rgb(248 113 113); }
+      .status-pembayaran-lunas { background-color: rgb(16 185 129 / 0.2); color: rgb(34 197 94); }
+      .status-pembayaran-menunggu-verifikasi { background-color: rgb(245 158 11 / 0.2); color: rgb(251 191 36); }
+      
+      .modal { background-color: rgba(10, 10, 10, 0.7); }
+      .modal-content { background-color: var(--card-bg-color); border: 1px solid var(--secondary-color); }
+    </style>
+</head>
+<body class="dark">
+    <div class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <!-- Header untuk Admin -->
+            <header class="header-standard flex items-center justify-between whitespace-nowrap px-6 md:px-10 py-4 shadow-md">
+                <div class="flex items-center gap-3">
+                    <div class="size-8 header-brand-icon-color">
+                        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M8.25 6h7.5m-7.5 3h7.5m-7.5 3h7.5m-7.5 3h7.5M3 12h18" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </div>
+                    <a href="/admin/dashboard.html" class="text-xl font-bold leading-tight tracking-[-0.015em] header-text-color">The Grand Royale - Admin</a>
+                </div>
+                <nav class="hidden md:flex flex-1 justify-center items-center gap-4 lg:gap-6">
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/admin/dashboard.html">Dashboard</a>
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/admin/manajemen-kamar.html">Kamar</a>
+                    <a class="header-nav-link-color active text-sm font-medium leading-normal transition-colors" href="/admin/data-reservasi.html">Reservasi</a>
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/admin/data-pembayaran.html">Pembayaran</a>
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/admin/manajemen-tamu.html">Tamu</a>
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/admin/manajemen-resepsionis.html">Resepsionis</a>
+                </nav>
+                <div class="flex items-center gap-4">
+                    <div id="guestSpecificLinks" class="flex items-center gap-3" style="display: none;">
+                        <a href="/login.html?role=admin"> 
+                            <button class="btn-secondary flex items-center justify-center rounded-lg h-10 px-4 text-sm font-semibold transition-colors min-w-[84px] hover:bg-opacity-80">Login</button>
+                        </a>
+                    </div>
+                    <div id="userSpecificLinks" class="flex items-center gap-3" style="display: none;">
+                        <div id="userAvatar" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 shadow-sm border-2 border-[var(--primary-color)] flex items-center justify-center text-white font-bold"></div>
+                        <button id="headerLogoutButton" class="btn-secondary flex items-center justify-center rounded-lg h-10 px-4 text-sm font-semibold transition-colors min-w-[84px] hover:bg-opacity-80">Logout</button>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-[var(--text-muted-color)] hover:text-[var(--primary-color)]">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </header>
+
+            <div id="mobile-menu" class="md:hidden hidden bg-[var(--card-bg-color)] border-b border-[var(--secondary-color)] py-2">
+                <a class="block px-4 py-2 text-sm header-nav-link-color" href="/admin/dashboard.html">Dashboard</a>
+                <a class="block px-4 py-2 text-sm header-nav-link-color" href="/admin/manajemen-kamar.html">Kamar</a>
+                <a class="block px-4 py-2 text-sm header-nav-link-color active" href="/admin/data-reservasi.html">Reservasi</a>
+                <a class="block px-4 py-2 text-sm header-nav-link-color" href="/admin/data-pembayaran.html">Pembayaran</a>
+                <a class="block px-4 py-2 text-sm header-nav-link-color" href="/admin/manajemen-tamu.html">Tamu</a>
+                <a class="block px-4 py-2 text-sm header-nav-link-color" href="/admin/manajemen-resepsionis.html">Resepsionis</a>
+            </div>
+
+            <main class="main-content-area px-4 sm:px-6 md:px-10 flex flex-1 justify-center py-8 md:py-12">
+                <div class="layout-content-container flex flex-col max-w-full w-full flex-1 gap-6">
+                      <!-- Page Title -->
+                    <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                        <h1 class="text-[var(--primary-color)] tracking-tight text-2xl md:text-3xl font-bold">Data Reservasi</h1>
+                        <div class="flex gap-2">
+                            <button id="add-reservation-btn" class="btn-primary px-4 py-2 text-sm rounded-md flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                                    <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                                </svg>
+                                Tambah Reservasi
+                            </button>
+                            <button id="refresh-btn" class="btn-secondary px-4 py-2 text-sm rounded-md flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4"><path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" /></svg>
+                                Refresh
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Filter Section -->
+                    <section id="filter-section" class="p-4 sm:p-6 rounded-lg bg-[var(--card-bg-color)] border border-[var(--secondary-color)]">
+                        <h3 class="text-lg font-semibold text-[var(--primary-color)] mb-4">Filter & Pencarian</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 items-end">
+                            <div>
+                                <label for="search-id-reservasi" class="block text-xs font-medium text-[var(--text-muted-color)] mb-1">ID Reservasi</label>
+                                <input type="text" id="search-id-reservasi" class="form-input w-full text-sm" placeholder="Cari ID reservasi...">
+                            </div>
+                            <div>
+                                <label for="search-nama-tamu" class="block text-xs font-medium text-[var(--text-muted-color)] mb-1">Nama Tamu</label>
+                                <input type="text" id="search-nama-tamu" class="form-input w-full text-sm" placeholder="Cari nama tamu...">
+                            </div>
+                            <div>
+                                <label for="filter-status-reservasi" class="block text-xs font-medium text-[var(--text-muted-color)] mb-1">Status Reservasi</label>
+                                <select id="filter-status-reservasi" class="form-select w-full text-sm">
+                                    <option value="">Semua Status</option>
+                                    <option value="Belum Bayar">Belum Bayar</option>
+                                    <option value="Menunggu Konfirmasi">Menunggu Konfirmasi</option>
+                                    <option value="Dikonfirmasi">Dikonfirmasi</option>
+                                    <option value="Check-In">Check-In</option>
+                                    <option value="Check-Out">Check-Out</option>
+                                    <option value="Dibatalkan">Dibatalkan</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="filter-status-pembayaran" class="block text-xs font-medium text-[var(--text-muted-color)] mb-1">Status Pembayaran</label>
+                                <select id="filter-status-pembayaran" class="form-select w-full text-sm">
+                                    <option value="">Semua Status</option>
+                                    <option value="Belum Lunas">Belum Lunas</option>
+                                    <option value="Lunas">Lunas</option>
+                                    <option value="Menunggu Verifikasi">Menunggu Verifikasi</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="filter-tipe-kamar" class="block text-xs font-medium text-[var(--text-muted-color)] mb-1">Tipe Kamar</label>
+                                <select id="filter-tipe-kamar" class="form-select w-full text-sm">
+                                    <option value="">Semua Tipe</option>
+                                    <option value="Standard">Standard</option>
+                                    <option value="Superior">Superior</option>
+                                    <option value="Deluxe">Deluxe</option>
+                                    <option value="Suite">Suite</option>
+                                    <option value="Family">Family</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="filter-tanggal-checkin" class="block text-xs font-medium text-[var(--text-muted-color)] mb-1">Filter Check-in</label>
+                                <input type="date" id="filter-tanggal-checkin" class="form-input w-full text-sm" title="Menampilkan reservasi yang check-in satu hari sebelum tanggal yang dipilih">
+                            </div>
+                            <div>
+                                <label for="filter-tanggal-checkout" class="block text-xs font-medium text-[var(--text-muted-color)] mb-1">Filter Check-out</label>
+                                <input type="date" id="filter-tanggal-checkout" class="form-input w-full text-sm" title="Menampilkan reservasi yang check-out satu hari sebelum tanggal yang dipilih">
+                            </div>
+                            <div class="flex gap-2 col-span-full sm:col-span-1">
+                                <button id="apply-filter-btn" class="btn-primary w-full px-4 py-2 text-sm rounded-md">Filter</button>
+                                <button id="reset-filter-btn" class="btn-secondary w-full px-4 py-2 text-sm rounded-md">Reset</button>
+                            </div>
+                        </div>
+                        <div class="mt-2 text-xs text-[var(--text-muted-color)]">
+                            <p>• Kosongkan field untuk menampilkan semua data</p>
+                        </div>
+                    </section>
+
+                    <!-- Loading Indicator -->
+                    <div id="loading-indicator" class="text-center py-8" style="display: none;">
+                        <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--primary-color)]"></div>
+                        <p class="mt-2 text-[var(--text-muted-color)]">Memuat data reservasi...</p>
+                    </div>                    <!-- Reservations Table -->
+                    <section id="reservations-table-container" class="table-container rounded-lg shadow-lg overflow-x-auto">
+                        <table class="table w-full text-sm text-left">
+                            <thead class="text-xs text-[var(--text-muted-color)] uppercase">
+                                <tr>
+                                    <th scope="col" class="px-3 py-3">ID</th>
+                                    <th scope="col" class="px-3 py-3">Nama Tamu</th>
+                                    <th scope="col" class="px-3 py-3">Tipe Kamar</th>
+                                    <th scope="col" class="px-3 py-3">No. Kamar</th>
+                                    <th scope="col" class="px-3 py-3">Tgl Reservasi</th>
+                                    <th scope="col" class="px-3 py-3">Check-in</th>
+                                    <th scope="col" class="px-3 py-3">Check-out</th>
+                                    <th scope="col" class="px-3 py-3">Jml Tamu</th>
+                                    <th scope="col" class="px-3 py-3 text-center">Status Reservasi</th>
+                                    <th scope="col" class="px-3 py-3 text-center">Status Pembayaran</th>
+                                    <th scope="col" class="px-3 py-3 text-right">Total Biaya (incl. PPN 10%)</th>
+                                    <th scope="col" class="px-3 py-3 text-center">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reservations-table-body" class="divide-y divide-[var(--input-border-color)]">
+                                <!-- Data akan dimuat di sini -->
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <!-- Empty State -->
+                    <div id="empty-state" class="text-center py-12" style="display: none;">
+                        <svg class="mx-auto h-16 w-16 text-[var(--text-muted-color)] mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                        </svg>
+                        <h3 class="text-lg font-medium text-[var(--text-color)] mb-2">Tidak ada data reservasi</h3>
+                        <p class="text-[var(--text-muted-color)]">Belum ada reservasi yang tersedia atau sesuai dengan filter yang diterapkan.</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>    <!-- Detail Modal -->
+    <div id="detail-modal" class="modal fixed inset-0 z-50 overflow-y-auto" style="display: none;">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+            <div class="modal-content inline-block align-bottom rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
+                <div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <h3 class="text-lg leading-6 font-medium text-[var(--primary-color)] mb-4">Detail Reservasi</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-3">
+                            <div class="grid grid-cols-3 gap-2">
+                                <span class="text-[var(--text-muted-color)]">ID Reservasi:</span>
+                                <span id="detail-id-reservasi" class="col-span-2 text-[var(--text-color)]">-</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2">
+                                <span class="text-[var(--text-muted-color)]">Nama Tamu:</span>
+                                <span id="detail-nama-tamu" class="col-span-2 text-[var(--text-color)]">-</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2">
+                                <span class="text-[var(--text-muted-color)]">Email:</span>
+                                <span id="detail-email-tamu" class="col-span-2 text-[var(--text-color)]">-</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2">
+                                <span class="text-[var(--text-muted-color)]">No. HP:</span>
+                                <span id="detail-hp-tamu" class="col-span-2 text-[var(--text-color)]">-</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2">
+                                <span class="text-[var(--text-muted-color)]">No. Kamar:</span>
+                                <span id="detail-no-kamar" class="col-span-2 text-[var(--text-color)]">-</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2">
+                                <span class="text-[var(--text-muted-color)]">Tipe Kamar:</span>
+                                <span id="detail-tipe-kamar" class="col-span-2 text-[var(--text-color)]">-</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2">
+                                <span class="text-[var(--text-muted-color)]">Harga per Malam:</span>
+                                <span id="detail-harga-kamar" class="col-span-2 text-[var(--text-color)]">-</span>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="grid grid-cols-3 gap-2">
+                                <span class="text-[var(--text-muted-color)]">Tanggal Reservasi:</span>
+                                <span id="detail-tanggal-reservasi" class="col-span-2 text-[var(--text-color)]">-</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2">
+                                <span class="text-[var(--text-muted-color)]">Check-in:</span>
+                                <span id="detail-checkin" class="col-span-2 text-[var(--text-color)]">-</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2">
+                                <span class="text-[var(--text-muted-color)]">Check-out:</span>
+                                <span id="detail-checkout" class="col-span-2 text-[var(--text-color)]">-</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2">
+                                <span class="text-[var(--text-muted-color)]">Jumlah Tamu:</span>
+                                <span id="detail-jumlah-tamu" class="col-span-2 text-[var(--text-color)]">-</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2">
+                                <span class="text-[var(--text-muted-color)]">Status Reservasi:</span>
+                                <span id="detail-status-reservasi" class="col-span-2">-</span>
+                            </div>                            <div class="grid grid-cols-3 gap-2">
+                                <span class="text-[var(--text-muted-color)]">Status Pembayaran:</span>
+                                <span id="detail-status-pembayaran" class="col-span-2">-</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2">
+                                <span class="text-[var(--text-muted-color)]">Rincian Biaya:</span>
+                                <span id="detail-total-biaya" class="col-span-2 text-[var(--text-color)]">-</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2">
+                                <span class="text-[var(--text-muted-color)]">Resepsionis:</span>
+                                <span id="detail-resepsionis" class="col-span-2 text-[var(--text-color)]">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="button" id="close-detail-modal" class="btn-secondary px-4 py-2 text-sm rounded-md">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form Modal (Add/Edit) -->
+    <div id="form-modal" class="modal fixed inset-0 z-50 overflow-y-auto" style="display: none;">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+            <div class="modal-content inline-block align-bottom rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full">
+                <form id="reservation-form">
+                    <div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <h3 id="form-modal-title" class="text-lg leading-6 font-medium text-[var(--primary-color)] mb-4">Tambah Reservasi</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Left Column -->
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="form-tamu" class="block text-sm font-medium text-[var(--text-color)] mb-1">Tamu</label>
+                                    <select id="form-tamu" name="id_tamu" class="form-select w-full" required>
+                                        <option value="">Pilih Tamu</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="form-tipe-kamar" class="block text-sm font-medium text-[var(--text-color)] mb-1">Tipe Kamar</label>
+                                    <select id="form-tipe-kamar" name="tipe_kamar" class="form-select w-full" required>
+                                        <option value="">Pilih Tipe Kamar</option>
+                                        <option value="Standard">Standard</option>
+                                        <option value="Superior">Superior</option>
+                                        <option value="Deluxe">Deluxe</option>
+                                        <option value="Suite">Suite</option>
+                                        <option value="Family">Family</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="form-kamar" class="block text-sm font-medium text-[var(--text-color)] mb-1">Kamar</label>
+                                    <select id="form-kamar" name="id_kamar" class="form-select w-full">
+                                        <option value="">Pilih Kamar (Opsional - Auto)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="form-checkin" class="block text-sm font-medium text-[var(--text-color)] mb-1">Check-in</label>
+                                    <input type="date" id="form-checkin" name="tanggal_checkin" class="form-input w-full" required>
+                                </div>
+                                <div>
+                                    <label for="form-checkout" class="block text-sm font-medium text-[var(--text-color)] mb-1">Check-out</label>
+                                    <input type="date" id="form-checkout" name="tanggal_checkout" class="form-input w-full" required>
+                                </div>
+                            </div>
+                            <!-- Right Column -->
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="form-jumlah-tamu" class="block text-sm font-medium text-[var(--text-color)] mb-1">Jumlah Tamu</label>
+                                    <input type="number" id="form-jumlah-tamu" name="jumlah_tamu" class="form-input w-full" min="1" max="4" value="1" required>
+                                </div>
+                                <div>
+                                    <label for="form-status-reservasi" class="block text-sm font-medium text-[var(--text-color)] mb-1">Status Reservasi</label>
+                                    <select id="form-status-reservasi" name="status_reservasi" class="form-select w-full" required>
+                                        <option value="Belum Bayar">Belum Bayar</option>
+                                        <option value="Menunggu Konfirmasi">Menunggu Konfirmasi</option>
+                                        <option value="Dikonfirmasi">Dikonfirmasi</option>
+                                        <option value="Check-In">Check-In</option>
+                                        <option value="Check-Out">Check-Out</option>
+                                        <option value="Dibatalkan">Dibatalkan</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="form-resepsionis" class="block text-sm font-medium text-[var(--text-color)] mb-1">Resepsionis</label>
+                                    <select id="form-resepsionis" name="id_resepsionis" class="form-select w-full">
+                                        <option value="">Pilih Resepsionis (Opsional)</option>
+                                    </select>
+                                </div>
+                                <div id="edit-only-fields" style="display: none;">
+                                    <div>
+                                        <label for="form-id-reservasi" class="block text-sm font-medium text-[var(--text-color)] mb-1">ID Reservasi</label>
+                                        <input type="text" id="form-id-reservasi" name="id_reservasi" class="form-input w-full" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse gap-2">
+                        <button type="submit" id="form-submit-btn" class="btn-primary px-4 py-2 text-sm rounded-md">Simpan</button>
+                        <button type="button" id="cancel-form-btn" class="btn-secondary px-4 py-2 text-sm rounded-md">Batal</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="modal fixed inset-0 z-50 overflow-y-auto" style="display: none;">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+            <div class="modal-content inline-block align-bottom rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="flex">
+                        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 15.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                            </svg>
+                        </div>
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            <h3 class="text-lg leading-6 font-medium text-[var(--text-color)]">Hapus Reservasi</h3>
+                            <div class="mt-2">
+                                <p class="text-sm text-[var(--text-muted-color)]">
+                                    Apakah Anda yakin ingin menghapus reservasi <span id="delete-reservation-id" class="font-semibold"></span>? Tindakan ini tidak dapat dibatalkan.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse gap-2">
+                    <button type="button" id="confirm-delete-btn" class="btn-danger px-4 py-2 text-sm rounded-md">Hapus</button>
+                    <button type="button" id="cancel-delete-btn" class="btn-secondary px-4 py-2 text-sm rounded-md">Batal</button>
+                </div>
+            </div>
+        </div>
+    </div>    <script src="/js/shared/auth.js"></script>
+    <script src="/js/admin/data-reservasi.js"></script>
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });        // Logout functionality
+        document.getElementById('headerLogoutButton').addEventListener('click', function() {
+            logoutUser();
+        });
+    </script>
+</body>
+</html>

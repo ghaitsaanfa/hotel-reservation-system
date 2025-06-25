@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buat Reservasi - The Grand Royale Hotel</title>
+    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiNDRjcwMTAiLz48dGV4dCB4PSI1MCIgeT0iNTUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSI0MCIgZmlsbD0iI0ZGRiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SDwvdGV4dD48L3N2Zz4=">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>    <style type="text/tailwindcss">
+      :root {
+        --primary-color: #cf7010; 
+        --secondary-color: #393028;
+        --background-color: #181411;
+        --card-bg-color: #24211e; 
+        --text-color: #ffffff; 
+        --text-muted-color: #b9ab9d; 
+        --input-bg-color: #2c2825;
+        --input-border-color: #4d4237;
+        --input-focus-border-color: var(--primary-color);
+        --table-header-bg: #2a2724;
+        --table-row-hover-bg: #2f2c29;
+      }
+      body {
+        font-family: "Noto Serif", "Noto Sans", sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        margin: 0;
+      }
+      .header-standard {
+        background-color: var(--background-color);
+        border-bottom: 1px solid var(--secondary-color);
+        color: var(--text-color);
+      }
+      .header-standard .header-brand-icon-color svg { color: var(--primary-color); }
+      .header-standard .header-text-color { color: var(--text-color); }
+      .header-standard .header-nav-link-color { color: var(--text-muted-color); }
+      .header-standard .header-nav-link-color:hover { color: var(--primary-color); }
+      .header-standard .header-nav-link-color.active { color: var(--primary-color); font-weight: 600; }
+
+      .main-content-area { background-color: #1a1816; }
+      
+      .btn-primary { 
+        background-color: var(--primary-color); 
+        color: var(--text-color); 
+        border: none;
+        transition: all 0.3s ease;
+      }
+      .btn-primary:hover { 
+        background-color: #e08220; 
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(207, 112, 16, 0.3);
+      }
+      
+      .btn-secondary { 
+        background-color: var(--secondary-color); 
+        color: var(--text-color); 
+        border: 1px solid var(--input-border-color);
+        transition: all 0.3s ease;
+      }
+      .btn-secondary:hover { 
+        background-color: #4d4237; 
+        transform: translateY(-1px);
+      }
+      
+      .form-card { 
+        background-color: var(--card-bg-color); 
+        border: 1px solid var(--secondary-color);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      }
+      
+      /* Styling untuk input, select, textarea */
+      .form-input, .form-select, .form-textarea {
+        background-color: var(--input-bg-color);
+        border-color: var(--input-border-color);
+        color: var(--text-color);
+        border-radius: 0.375rem;
+        padding: 0.5rem 0.75rem;
+        width: 100%;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+      .form-input:focus, .form-select:focus, .form-textarea:focus {
+        border-color: var(--input-focus-border-color);
+        box-shadow: 0 0 0 2px rgba(207, 112, 16, 0.2);
+        outline: none;
+      }
+      
+      .loading-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 4rem;
+        text-align: center;
+      }
+      
+      .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid var(--input-border-color);
+        border-top: 4px solid var(--primary-color);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 1rem;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+        .room-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+      }
+      
+      /* Mobile responsive improvements */
+      @media (max-width: 768px) {
+        .room-image {
+          height: 150px;
+        }
+        
+        .btn-primary, .btn-secondary {
+          padding: 0.75rem 1rem;
+          font-size: 0.875rem;
+        }
+        
+        .header-standard {
+          padding: 1rem;
+        }
+        
+        .main-content-area {
+          padding: 1rem;
+        }
+      }
+      
+      /* Success/Error message styling */
+      .form-message-success {
+        color: #10b981;
+        background-color: rgba(16, 185, 129, 0.1);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        padding: 0.75rem;
+        border-radius: 0.375rem;
+      }
+      
+      .form-message-error {
+        color: #ef4444;
+        background-color: rgba(239, 68, 68, 0.1);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        padding: 0.75rem;        border-radius: 0.375rem;
+      }
+    </style>
+</head>
+<body class="dark">
+    <div class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">            <!-- Header untuk Tamu -->
+            <header class="header-standard flex items-center justify-between whitespace-nowrap px-6 md:px-10 py-4 shadow-md">
+                <div class="flex items-center gap-3">
+                    <div class="size-8 header-brand-icon-color">
+                        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M8.25 6h7.5m-7.5 3h7.5m-7.5 3h7.5m-7.5 3h7.5M3 12h18" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </div>
+                    <a href="/tamu/dashboard.html" class="text-xl font-bold leading-tight tracking-[-0.015em] header-text-color">The Grand Royale</a>
+                </div>
+
+                <nav class="hidden md:flex flex-1 justify-center items-center gap-4 lg:gap-6">
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/tamu/dashboard.html">Dashboard</a>
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/tamu/kamar.html">Lihat Kamar</a>
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/tamu/reservasi-saya.html">Reservasi Saya</a>
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/tamu/profil.html">Profil Saya</a>
+                </nav>
+
+                <div class="flex items-center gap-4">
+                    <div id="guestSpecificLinks" class="flex items-center gap-3" style="display: none;">
+                        <a href="/login.html?role=tamu"> 
+                            <button class="btn-secondary flex items-center justify-center rounded-lg h-10 px-4 text-sm font-semibold transition-colors min-w-[84px] hover:bg-opacity-80">Login</button>
+                        </a>
+                        <a href="/register.html">
+                            <button class="btn-primary flex items-center justify-center rounded-lg h-10 px-4 text-sm font-semibold transition-colors min-w-[84px] hover:bg-opacity-80">Sign Up</button>
+                        </a>
+                    </div>
+
+                    <!-- Tampilan untuk pengguna yang SUDAH login -->
+                    <div id="userSpecificLinks" class="flex items-center gap-3" style="display: none;">
+                        <div id="userAvatar" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 shadow-sm border-2 border-[var(--primary-color)] flex items-center justify-center text-white font-bold">
+                            <!-- Avatar atau inisial akan diisi oleh auth.js -->
+                        </div>
+                        <button id="headerLogoutButton" class="btn-secondary flex items-center justify-center rounded-lg h-10 px-4 text-sm font-semibold transition-colors min-w-[84px] hover:bg-opacity-80">Logout</button>
+                    </div>
+                </div>
+            </header>            <main class="main-content-area px-6 md:px-10 lg:px-20 flex flex-1 justify-center py-12">
+                <div class="layout-content-container flex flex-col max-w-6xl w-full flex-1 gap-8">
+                    <div class="text-center">
+                        <h1 class="text-[var(--primary-color)] tracking-tight text-4xl font-bold">Buat Reservasi</h1>
+                        <p class="text-[var(--text-muted-color)] text-lg mt-2">Tinjau kamar yang dipilih dan lengkapi informasi untuk menyelesaikan pemesanan Anda.</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- Kolom Kiri: Detail Kamar & Ringkasan Biaya -->
+                        <div class="lg:col-span-2 space-y-6">
+                            <section id="selected-rooms-section" class="form-card p-6 rounded-lg shadow-lg">
+                                <h2 class="text-xl font-semibold text-[var(--primary-color)] mb-4 flex items-center gap-2">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                    </svg>
+                                    Detail Kamar Terpilih
+                                </h2>
+                                
+                                <!-- Loading State -->
+                                <div id="room-details-placeholder" class="loading-state">
+                                    <div class="loading-spinner"></div>
+                                    <p class="text-lg font-medium">Memuat detail pemesanan...</p>
+                                </div>
+                                
+                                <!-- Room Details Content -->
+                                <div id="room-details-content" style="display:none;">
+                                    <div id="selected-rooms-container">
+                                        <!-- Selected rooms will be populated by JavaScript -->
+                                    </div>
+                                </div>
+                            </section>
+                        </div>                        <!-- Kolom Kanan: Form Reservasi -->
+                        <div class="lg:col-span-1">
+                            <form id="reservation-form" class="form-card p-6 rounded-lg shadow-lg space-y-6">
+                                <section>
+                                    <h2 class="text-xl font-semibold text-[var(--primary-color)] mb-4 flex items-center gap-2">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                        </svg>
+                                        Informasi Tamu
+                                    </h2>
+                                    <div>
+                                        <label for="guest-name" class="form-label">Nama Lengkap</label>
+                                        <input type="text" id="guest-name" name="guest_name" class="form-input" placeholder="Sesuai KTP/Passport" required>
+                                    </div>
+                                    <div class="mt-4">
+                                        <label for="guest-email" class="form-label">Alamat Email</label>
+                                        <input type="email" id="guest-email" name="guest_email" class="form-input" placeholder="contoh: nama@email.com" required>
+                                    </div>                                    <div class="mt-4">
+                                        <label for="guest-phone" class="form-label">Nomor Telepon</label>
+                                        <input type="tel" id="guest-phone" name="guest_phone" class="form-input" placeholder="contoh: 08123456789" required>
+                                    </div>
+                                </section>
+
+                                <section>
+                                    <label for="special-requests" class="form-label">Permintaan Khusus (Opsional)</label>
+                                    <textarea id="special-requests" name="special_requests" rows="3" class="form-textarea" placeholder="contoh: Kamar bebas rokok, lantai atas, check-in lebih awal (tergantung ketersediaan)"></textarea>
+                                </section>
+
+                                <div class="pt-4">
+                                    <button type="submit" id="submit-reservation" class="btn-primary w-full flex items-center justify-center rounded-md px-6 py-3 text-base font-medium">
+                                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        Konfirmasi Reservasi
+                                    </button>
+                                    <p id="form-message" class="text-center mt-3 text-sm" style="display: none;"></p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <footer class="bg-[var(--background-color)] border-t border-[var(--secondary-color)] py-12 px-10 text-center">
+                <p class="text-[var(--text-muted-color)] text-sm">© 2025 The Grand Royale Hotel. Hak Cipta Dilindungi.</p>
+            </footer>
+        </div>
+    </div>
+
+    <script src="/js/shared/utils.js"></script> <!-- Jika ada -->
+    <script src="/js/shared/auth.js"></script> 
+    <script src="/js/tamu/buat-reservasi.js"></script> 
+</body>
+</html>

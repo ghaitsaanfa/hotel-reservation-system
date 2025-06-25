@@ -1,0 +1,74 @@
+<svg width="400" height="250" viewBox="0 0 400 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="400" height="250" fill="#f8f4e6"/>
+  
+  <!-- Floor -->
+  <rect y="200" width="400" height="50" fill="#8B4513"/>
+  
+  <!-- Wall -->
+  <rect width="400" height="200" fill="#e6dcc4"/>
+  
+  <!-- Master Bed -->
+  <rect x="20" y="90" width="180" height="110" rx="15" fill="#ffffff"/>
+  <rect x="25" y="95" width="170" height="100" rx="10" fill="#f0f0f0"/>
+  <rect x="30" y="100" width="160" height="25" fill="#cf7010"/>
+  
+  <!-- Luxury Pillows -->
+  <rect x="35" y="105" width="35" height="25" rx="12" fill="#ffffff"/>
+  <rect x="75" y="105" width="35" height="25" rx="12" fill="#ffffff"/>
+  <rect x="115" y="105" width="35" height="25" rx="12" fill="#ffffff"/>
+  <rect x="155" y="105" width="35" height="25" rx="12" fill="#ffffff"/>
+  
+  <!-- Decorative throw -->
+  <rect x="30" y="170" width="160" height="20" fill="#8B4513"/>
+  
+  <!-- Bedside tables (both sides) -->
+  <rect x="210" y="120" width="50" height="80" rx="5" fill="#654321"/>
+  <rect x="215" y="115" width="40" height="5" fill="#8B4513"/>
+  
+  <!-- Elegant Chandelier -->
+  <rect x="235" y="90" width="10" height="30" fill="#654321"/>
+  <circle cx="240" cy="75" r="20" fill="none" stroke="#cf7010" stroke-width="3"/>
+  <circle cx="240" cy="75" r="15" fill="none" stroke="#cf7010" stroke-width="2"/>
+  <circle cx="240" cy="75" r="10" fill="none" stroke="#cf7010" stroke-width="1"/>
+  <circle cx="240" cy="75" r="3" fill="#cf7010"/>
+  
+  <!-- Large Panoramic Window -->
+  <rect x="280" y="30" width="115" height="100" rx="5" fill="#87CEEB"/>
+  <rect x="280" y="30" width="115" height="100" rx="5" stroke="#654321" stroke-width="3" fill="none"/>
+  <line x1="337" y1="30" x2="337" y2="130" stroke="#654321" stroke-width="2"/>
+  <line x1="280" y1="80" x2="395" y2="80" stroke="#654321" stroke-width="2"/>
+  
+  <!-- City skyline view -->
+  <rect x="290" y="110" width="8" height="15" fill="#4682B4"/>
+  <rect x="302" y="105" width="12" height="20" fill="#4682B4"/>
+  <rect x="318" y="100" width="10" height="25" fill="#4682B4"/>
+  <rect x="332" y="95" width="15" height="30" fill="#4682B4"/>
+  <rect x="350" y="115" width="8" height="10" fill="#4682B4"/>
+  <rect x="362" y="108" width="12" height="17" fill="#4682B4"/>
+  <rect x="378" y="112" width="10" height="13" fill="#4682B4"/>
+  
+  <!-- Luxury Curtains -->
+  <rect x="270" y="20" width="25" height="120" fill="#cf7010"/>
+  <rect x="395" y="20" width="25" height="120" fill="#cf7010"/>
+  
+  <!-- Luxury Living Area -->
+  <rect x="300" y="140" width="90" height="60" rx="10" fill="#654321"/>
+  <rect x="305" y="135" width="80" height="10" fill="#8B4513"/>
+  <rect x="305" y="125" width="80" height="25" rx="12" fill="#654321"/>
+  <rect x="285" y="150" width="25" height="35" rx="12" fill="#654321"/>
+  <rect x="395" y="150" width="25" height="35" rx="12" fill="#654321"/>
+  
+  <!-- Coffee Table -->
+  <rect x="230" y="150" width="60" height="50" rx="5" fill="#8B4513"/>
+  <rect x="235" y="145" width="50" height="5" fill="#654321"/>
+  
+  <!-- Decorative Items -->
+  <rect x="250" y="130" width="10" height="15" fill="#cf7010"/>
+  <circle cx="255" cy="135" r="8" fill="#cf7010"/>
+  <rect x="270" y="125" width="12" height="20" fill="#8B4513"/>
+  <circle cx="276" cy="132" r="6" fill="#228B22"/>
+  
+  <!-- Title -->
+  <text x="200" y="230" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#654321">Suite Room</text>
+</svg>

@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>Reservasi Saya - The Grand Royale Hotel</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏨</text></svg>">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><style type="text/tailwindcss">
+      :root {
+        --primary-color: #cf7010; 
+        --secondary-color: #393028;
+        --background-color: #181411;
+        --card-bg-color: #24211e; 
+        --text-color: #ffffff; 
+        --text-muted-color: #b9ab9d; 
+        --input-bg-color: #2c2825;
+        --input-border-color: #4d4237;
+        --input-focus-border-color: var(--primary-color);
+        --table-header-bg: #2a2724;
+        --table-row-hover-bg: #2f2c29;
+      }
+      body {
+        font-family: "Noto Serif", "Noto Sans", sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        margin: 0;
+      }
+      .header-standard {
+        background-color: var(--background-color);
+        border-bottom: 1px solid var(--secondary-color);
+        color: var(--text-color);
+      }
+      .header-standard .header-brand-icon-color svg { color: var(--primary-color); }
+      .header-standard .header-text-color { color: var(--text-color); }
+      .header-standard .header-nav-link-color { color: var(--text-muted-color); }
+      .header-standard .header-nav-link-color:hover { color: var(--primary-color); }
+      .header-standard .header-nav-link-color.active { color: var(--primary-color); font-weight: 600; }
+
+      .main-content-area { background-color: #1a1816; }
+        .reservation-card { 
+        background-color: var(--card-bg-color); 
+        border: 1px solid var(--input-border-color); 
+        border-radius: 0.75rem;
+        transition: all 0.3s ease-in-out;
+        position: relative;
+        overflow: hidden;
+      }
+      .reservation-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--primary-color), #e08220);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      .reservation-card:hover::before {
+        opacity: 1;
+      }
+
+      /* Modal Styles */
+      .modal-backdrop {
+        backdrop-filter: blur(4px);
+      }
+      
+      /* Loading Spinner */
+      .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid var(--input-border-color);
+        border-top: 4px solid var(--primary-color);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      /* Detail Modal Content Styles */
+      .detail-section {
+        background-color: var(--input-bg-color);
+        border: 1px solid var(--input-border-color);
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .detail-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid var(--input-border-color);
+      }
+      
+      .detail-item:last-child {
+        border-bottom: none;
+      }
+      
+      .detail-label {
+        color: var(--text-muted-color);
+        font-weight: 500;
+      }
+      
+      .detail-value {
+        color: var(--text-color);
+        font-weight: 600;
+      }
+      
+      /* Status Badge Styles */
+      .status-badge {
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.025em;
+      }
+      
+      .status-lunas {
+        background-color: rgba(34, 197, 94, 0.1);
+        color: #22c55e;
+        border: 1px solid rgba(34, 197, 94, 0.3);
+      }
+      
+      .status-belum-bayar {
+        background-color: rgba(251, 191, 36, 0.1);
+        color: #fbbf24;
+        border: 1px solid rgba(251, 191, 36, 0.3);
+      }
+      
+      .status-dikonfirmasi {
+        background-color: rgba(59, 130, 246, 0.1);
+        color: #3b82f6;
+        border: 1px solid rgba(59, 130, 246, 0.3);
+      }
+      
+      .status-check-in {
+        background-color: rgba(34, 197, 94, 0.1);
+        color: #22c55e;
+        border: 1px solid rgba(34, 197, 94, 0.3);
+      }
+      
+      .status-selesai {
+        background-color: rgba(107, 114, 128, 0.1);
+        color: #6b7280;
+        border: 1px solid rgba(107, 114, 128, 0.3);
+      }
+      
+      .status-dibatalkan {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+        border: 1px solid rgba(239, 68, 68, 0.3);
+      }
+      
+      .reservation-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 25px -5px rgba(207, 112, 16, 0.15), 0 10px 10px -5px rgba(207, 112, 16, 0.1);
+        border-color: var(--primary-color);
+      }
+      
+      .btn-primary { 
+        background-color: var(--primary-color); 
+        color: var(--text-color); 
+        transition: all 0.3s ease;
+        border: none;
+        position: relative;
+        overflow: hidden;
+      }
+      .btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+      }
+      .btn-primary:hover::before {
+        left: 100%;
+      }
+      .btn-primary:hover { 
+        background-color: #e08220; 
+        transform: translateY(-2px);
+        box-shadow: 0 8px 15px -3px rgba(207, 112, 16, 0.3);
+      }
+      .btn-secondary { 
+        background-color: var(--secondary-color); 
+        color: var(--text-color); 
+        border: 1px solid var(--input-border-color);
+        transition: all 0.3s ease;
+      }
+      .btn-secondary:hover { 
+        background-color: #4d4237; 
+        border-color: var(--primary-color);
+        transform: translateY(-1px);
+      }
+      .btn-danger { 
+        background-color: #dc3545; 
+        color: var(--text-color);
+        transition: all 0.3s ease;
+        border: none;
+      }
+      .btn-danger:hover { 
+        background-color: #c82333; 
+        transform: translateY(-2px);
+        box-shadow: 0 8px 15px -3px rgba(220, 53, 69, 0.3);
+      }
+      .btn-outline-primary {
+        background-color: transparent;
+        border: 1px solid var(--primary-color);
+        color: var(--primary-color);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      .btn-outline-primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background-color: var(--primary-color);
+        transition: left 0.3s ease;
+        z-index: -1;
+      }
+      .btn-outline-primary:hover::before {
+        left: 0;
+      }
+      .btn-outline-primary:hover {
+        color: var(--text-color);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 15px -3px rgba(207, 112, 16, 0.3);
+      }
+
+      .status-unpaid { 
+        color: #EF4444; 
+        background-color: rgba(239, 68, 68, 0.1);
+        border-color: #EF4444;
+      }
+      .status-confirmed { 
+        color: #10B981; 
+        background-color: rgba(16, 185, 129, 0.1);
+        border-color: #10B981;
+      }
+      .status-pending { 
+        color: #F59E0B; 
+        background-color: rgba(245, 158, 11, 0.1);
+        border-color: #F59E0B;
+      }      .status-cancelled { 
+        color: #EF4444; 
+        background-color: rgba(239, 68, 68, 0.1);
+        border-color: #EF4444;
+      }
+      .status-pending { 
+        color: #F59E0B; 
+        background-color: rgba(245, 158, 11, 0.1);
+        border-color: #F59E0B;
+      }
+      .status-completed { 
+        color: #059669; 
+        background-color: rgba(5, 150, 105, 0.1);
+        border-color: #059669;
+      }
+      .status-lunas {
+        color: #10B981;
+        background-color: rgba(16, 185, 129, 0.1);
+        border-color: #10B981;
+      }      .status-belum-bayar {
+        color: #EF4444;
+        background-color: rgba(239, 68, 68, 0.1);
+        border-color: #EF4444;
+      }
+      .status-pending {
+        color: #F59E0B;
+        background-color: rgba(245, 158, 11, 0.1);
+        border-color: #F59E0B;
+      }
+      .status-badge {
+        font-size: 0.75rem;
+        font-weight: 600;
+        padding: 0.5rem 1rem;
+        border-radius: 9999px;
+        border: 1px solid;
+        background-color: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(8px);
+        display: inline-block;
+      }
+        /* Detail Item Styles */
+      .detail-label {
+        color: var(--text-muted-color);
+        font-weight: 500;
+      }
+      .detail-value {
+        color: var(--text-color);
+        font-weight: 600;
+        text-align: right;
+      }
+      
+      /* Fasilitas Kamar Styles */
+      .amenity-badge {
+        background-color: rgba(207, 112, 16, 0.1);
+        color: #ffffff !important;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        display: inline-block;
+        margin: 0.125rem;
+        border: 1px solid rgba(207, 112, 16, 0.3);
+      }
+      .status-completed { 
+        color: #3B82F6; 
+        background-color: rgba(59, 130, 246, 0.1);
+        border-color: #3B82F6;
+      }      .filter-section {
+        background-color: var(--card-bg-color);
+        border: 1px solid var(--input-border-color);
+        border-radius: 0.75rem;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        transition: all 0.3s ease;
+      }
+      .filter-section:hover {
+        border-color: var(--primary-color);
+        box-shadow: 0 4px 6px -1px rgba(207, 112, 16, 0.1);
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      .reservation-card {
+        animation: fadeInUp 0.5s ease forwards;
+      }
+      
+      .reservation-card:nth-child(2) { animation-delay: 0.1s; }
+      .reservation-card:nth-child(3) { animation-delay: 0.2s; }
+      .reservation-card:nth-child(4) { animation-delay: 0.3s; }
+      .reservation-card:nth-child(5) { animation-delay: 0.4s; }
+
+      /* Smooth scroll behavior */
+      html {
+        scroll-behavior: smooth;
+      }
+      
+      /* Focus styles for better accessibility */
+      button:focus-visible,
+      input:focus-visible {
+        outline: 2px solid var(--primary-color);
+        outline-offset: 2px;
+      }
+
+      /* Modal responsive adjustments */
+      @media (max-width: 768px) {
+        .modal-backdrop .bg-\[var\(--card-bg-color\)\] {
+          margin: 1rem;
+          max-height: calc(100vh - 2rem);
+        }
+        
+        .grid-cols-1.lg\:grid-cols-2 {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+</head>
+<body class="dark">
+    <div class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">            <!-- Header untuk Tamu -->
+            <header class="header-standard flex items-center justify-between whitespace-nowrap px-6 md:px-10 py-4 shadow-md">
+                <div class="flex items-center gap-3">
+                    <div class="size-8 header-brand-icon-color">
+                        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M8.25 6h7.5m-7.5 3h7.5m-7.5 3h7.5m-7.5 3h7.5M3 12h18" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </div>
+                    <a href="/tamu/dashboard.html" class="text-xl font-bold leading-tight tracking-[-0.015em] header-text-color">The Grand Royale</a>
+                </div>
+                
+                <nav class="hidden md:flex flex-1 justify-center items-center gap-4 lg:gap-6">
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/tamu/dashboard.html">Dashboard</a>
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/tamu/kamar.html">Lihat Kamar</a>
+                    <a class="header-nav-link-color active text-sm font-medium leading-normal transition-colors" href="/tamu/reservasi-saya.html">Reservasi Saya</a>
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/tamu/profil.html">Profil Saya</a>
+                </nav>
+                
+                <div class="flex items-center gap-4">
+                    <div id="guestSpecificLinks" class="flex items-center gap-3" style="display: none;">
+                        <a href="/login.html?role=tamu"> 
+                            <button class="btn-secondary flex items-center justify-center rounded-lg h-10 px-4 text-sm font-semibold transition-colors min-w-[84px] hover:bg-opacity-80">Login</button>
+                        </a>
+                    </div>
+
+                    <div id="userSpecificLinks" class="flex items-center gap-3" style="display: none;">
+                        <div id="userAvatar" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 shadow-sm border-2 border-[var(--primary-color)] flex items-center justify-center text-white font-bold"></div>
+                        <button id="headerLogoutButton" class="btn-secondary flex items-center justify-center rounded-lg h-10 px-4 text-sm font-semibold transition-colors min-w-[84px] hover:bg-opacity-80">Logout</button>
+                    </div>
+                    
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-button" class="md:hidden p-2 rounded-md text-[var(--text-muted-color)] hover:text-[var(--primary-color)] hover:bg-[var(--input-bg-color)] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[var(--primary-color)]">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Mobile Menu -->
+            <div class="md:hidden hidden" id="mobile-menu">
+                <div class="space-y-1 px-2 pb-3 pt-2">
+                    <a href="/tamu/dashboard.html" class="text-[var(--text-muted-color)] hover:bg-[var(--input-bg-color)] hover:text-[var(--primary-color)] block rounded-md px-3 py-2 text-base font-medium">Dashboard</a>
+                    <a href="/tamu/kamar.html" class="text-[var(--text-muted-color)] hover:bg-[var(--input-bg-color)] hover:text-[var(--primary-color)] block rounded-md px-3 py-2 text-base font-medium">Lihat Kamar</a>
+                    <a href="/tamu/reservasi-saya.html" class="bg-[var(--input-bg-color)] text-[var(--primary-color)] block rounded-md px-3 py-2 text-base font-medium" aria-current="page">Reservasi Saya</a>
+                    <a href="/tamu/profil.html" class="text-[var(--text-muted-color)] hover:bg-[var(--input-bg-color)] hover:text-[var(--primary-color)] block rounded-md px-3 py-2 text-base font-medium">Profil Saya</a>
+                </div>
+                <!-- Logged in user info and logout for mobile -->
+                <div class="border-t border-[var(--input-border-color)] px-2 py-3 space-y-2">
+                    <div class="flex items-center space-x-3">
+                        <div id="mobileUserAvatar" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 shadow-sm border-2 border-[var(--primary-color)] flex items-center justify-center text-white font-bold">T</div>
+                        <div>
+                            <p id="mobileUserName" class="text-base font-medium text-[var(--text-color)]">Nama Tamu</p>
+                            <p id="mobileUserEmail" class="text-sm font-medium text-[var(--text-muted-color)]">tamu@example.com</p>
+                        </div>
+                    </div>
+                    <button id="mobileHeaderLogoutButton" class="w-full flex items-center justify-center rounded-md bg-[var(--primary-color)] px-3 py-2 text-base font-medium text-white hover:bg-opacity-80 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-[var(--primary-color)]">
+                        Logout
+                    </button>
+                </div>
+            </div>            <!-- Main Content Area -->
+            <main class="main-content-area p-6 md:p-10">
+                <div class="mb-8">
+                    <h1 class="text-3xl md:text-4xl font-bold text-[var(--primary-color)] mb-3">Reservasi Saya</h1>
+                    <p class="text-lg text-[var(--text-muted-color)]">Kelola dan lihat semua reservasi kamar Anda di The Grand Royale Hotel.</p>
+                </div>                <!-- Filter Section -->
+                <div class="filter-section mb-8">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-semibold text-[var(--text-color)] flex items-center gap-2">
+                            <svg class="w-5 h-5 text-[var(--primary-color)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
+                            </svg>
+                            Filter & Tampilan
+                        </h2>
+                        <div class="text-sm text-[var(--text-muted-color)]">
+                            <span id="reservationCount">0</span> reservasi ditemukan
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-4">
+                        <div class="flex items-center space-x-2">
+                            <input type="checkbox" id="hideCancelledReservations" class="rounded border-[var(--input-border-color)] text-[var(--primary-color)] focus:ring-[var(--primary-color)] focus:ring-offset-0 bg-[var(--input-bg-color)] focus:ring-offset-[var(--background-color)]">
+                            <label for="hideCancelledReservations" class="text-sm text-[var(--text-muted-color)] cursor-pointer select-none">
+                                Sembunyikan reservasi yang dibatalkan
+                            </label>
+                        </div>
+                        <div class="flex items-center space-x-2 ml-auto">
+                            <button id="refreshReservations" class="btn-secondary flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-300 hover:transform hover:scale-105">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                </svg>
+                                Refresh
+                            </button>
+                        </div>
+                    </div>
+                </div><!-- Reservations Container -->                <div id="reservations-list-container" class="space-y-6">
+                    <!-- Loading state -->
+                    <div id="loading-message" class="text-center py-16">
+                        <div class="bg-[var(--card-bg-color)] border border-[var(--input-border-color)] rounded-xl p-12 max-w-sm mx-auto">
+                            <div class="animate-spin rounded-full h-16 w-16 border-4 border-[var(--input-border-color)] border-t-[var(--primary-color)] mx-auto mb-6"></div>
+                            <div class="space-y-2">
+                                <p class="text-[var(--text-color)] font-semibold text-lg">Memuat Reservasi</p>
+                                <p class="text-[var(--text-muted-color)] text-sm">Mohon tunggu sebentar...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                  <!-- No reservations message -->
+                <div id="no-reservations-message" class="text-center py-16" style="display:none;">
+                    <div class="bg-[var(--card-bg-color)] border border-[var(--input-border-color)] rounded-xl p-12 max-w-lg mx-auto shadow-lg">
+                        <div class="mb-6">
+                            <div class="bg-[var(--primary-color)] bg-opacity-10 rounded-full p-4 w-20 h-20 mx-auto mb-4 flex items-center justify-center">
+                                <svg class="w-10 h-10 text-[var(--primary-color)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                </svg>
+                            </div>
+                        </div>
+                        <h3 class="text-2xl font-bold text-[var(--text-color)] mb-3">Belum Ada Reservasi</h3>
+                        <p class="text-[var(--text-muted-color)] text-lg mb-8 leading-relaxed">
+                            Anda belum melakukan pemesanan kamar di hotel kami. Jelajahi kamar-kamar mewah kami dan buat reservasi pertama Anda.
+                        </p>
+                        <div class="space-y-3">
+                            <a href="/tamu/kamar.html" class="btn-primary inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-300 hover:transform hover:scale-105 w-full sm:w-auto">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                </svg>
+                                Lihat Kamar Tersedia
+                            </a>
+                            <p class="text-xs text-[var(--text-muted-color)] mt-3">
+                                Atau hubungi customer service kami untuk bantuan
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Modal Detail Reservasi -->
+            <div id="reservationDetailModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+                <div class="flex items-center justify-center min-h-screen p-4">
+                    <div class="bg-[var(--card-bg-color)] border border-[var(--input-border-color)] rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+                        <!-- Modal Header -->
+                        <div class="flex items-center justify-between p-6 border-b border-[var(--input-border-color)]">
+                            <h2 class="text-2xl font-bold text-[var(--primary-color)] flex items-center gap-2">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                Detail Reservasi
+                            </h2>
+                            <button id="closeModalBtn" class="text-[var(--text-muted-color)] hover:text-[var(--text-color)] transition-colors">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Modal Content -->
+                        <div id="modalContent" class="p-6">
+                            <!-- Loading state -->
+                            <div id="modalLoading" class="text-center py-8">
+                                <div class="loading-spinner mx-auto mb-4"></div>
+                                <p class="text-[var(--text-muted-color)]">Memuat detail reservasi...</p>
+                            </div>
+
+                            <!-- Content will be populated by JavaScript -->
+                            <div id="modalDetails" class="hidden">
+                                <!-- Detail content will be inserted here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    <!-- Mobile menu toggle script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    
+                    // Update button icon
+                    const icon = mobileMenuButton.querySelector('svg');
+                    if (mobileMenu.classList.contains('hidden')) {
+                        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />';
+                    } else {
+                        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />';
+                    }
+                });
+                
+                // Close mobile menu when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!mobileMenuButton.contains(e.target) && !mobileMenu.contains(e.target)) {
+                        mobileMenu.classList.add('hidden');
+                        const icon = mobileMenuButton.querySelector('svg');
+                        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />';
+                    }
+                });
+            }
+        });
+    </script><script src="/js/shared/utils.js"></script>
+    <script src="/js/shared/auth.js"></script> 
+    <script src="/js/tamu/reservasi-saya.js"></script>
+</body>
+</html>

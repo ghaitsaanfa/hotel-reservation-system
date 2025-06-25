@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembayaran - The Grand Royale Hotel</title>
+    <link href="data:image/svg+xml,%3Csvg width='48' height='48' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z' fill='%23CF7010'/%3E%3C/svg%3E" rel="icon" type="image/svg+xml"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style type="text/tailwindcss">
+      :root {
+        --primary-color: #cf7010; 
+        --secondary-color: #393028;
+        --background-color: #181411;
+        --card-bg-color: #24211e; 
+        --text-color: #ffffff; 
+        --text-muted-color: #b9ab9d; 
+        --input-bg-color: #2c2825;
+        --input-border-color: #4d4237;
+        --input-focus-border-color: var(--primary-color);
+      }
+      body {
+        font-family: "Noto Serif", "Noto Sans", sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        margin: 0;
+      }
+      .header-standard {
+        background-color: var(--background-color);
+        border-bottom: 1px solid var(--secondary-color);
+        color: var(--text-color);
+      }
+      .header-standard .header-brand-icon-color svg { color: var(--primary-color); }
+      .header-standard .header-text-color { color: var(--text-color); }
+      .header-standard .header-nav-link-color { color: var(--text-muted-color); }
+      .header-standard .header-nav-link-color:hover { color: var(--primary-color); }
+      .header-standard .header-nav-link-color.active { color: var(--primary-color); font-weight: 600; }
+
+      .main-content-area { background-color: #1a1816; }
+      .btn-primary { background-color: var(--primary-color); color: var(--text-color); }
+      .btn-primary:hover { background-color: #e08220; }
+      .btn-secondary { background-color: var(--secondary-color); color: var(--text-color); }
+      .btn-secondary:hover { background-color: #4d4237; }
+      .btn-success { background-color: #28a745; color: var(--text-color); }
+      .btn-success:hover { background-color: #218838; }
+      .btn-danger { background-color: #dc3545; color: var(--text-color); }
+      .btn-danger:hover { background-color: #c82333; }
+      
+      .form-input, .form-select {
+        background-color: var(--input-bg-color);
+        border-color: var(--input-border-color);
+        color: var(--text-color);
+        border-radius: 0.375rem;
+        padding: 0.5rem 0.75rem;
+        border-width: 1px;
+        width: 100%;
+      }
+      .form-input:focus, .form-select:focus {
+        border-color: var(--input-focus-border-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(207, 112, 16, 0.1);
+      }
+      
+      .payment-card {
+        background-color: var(--card-bg-color);
+        border: 1px solid var(--secondary-color);
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .status-pending { color: #ffc107; }
+      .status-success { color: #28a745; }
+      .status-danger { color: #dc3545; }
+      
+      .payment-method-option {
+        border: 2px solid var(--input-border-color);
+        border-radius: 0.5rem;
+        padding: 1rem;
+        margin-bottom: 0.75rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      .payment-method-option:hover {
+        border-color: var(--primary-color);
+        background-color: rgba(207, 112, 16, 0.1);
+      }
+      .payment-method-option.selected {
+        border-color: var(--primary-color);
+        background-color: rgba(207, 112, 16, 0.2);
+      }
+      
+      .loading {
+        opacity: 0.7;
+        pointer-events: none;
+      }
+    </style>
+</head>
+<body class="dark">
+    <div class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <!-- Header Standar -->
+            <header class="header-standard flex items-center justify-between whitespace-nowrap border-b border-solid px-10 py-5 shadow-sm">
+                <div class="flex items-center gap-3">
+                    <div class="size-8 header-brand-icon-color">
+                        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M8.25 6h7.5m-7.5 3h7.5m-7.5 3h7.5m-7.5 3h7.5M3 12h18" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </div>
+                    <a href="/" class="text-xl font-bold leading-tight tracking-[-0.015em] header-text-color">The Grand Royale Hotel</a>
+                </div>
+                <nav class="flex flex-1 justify-center gap-8">
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/tamu/kamar.html">Lihat Kamar</a>
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/tamu/dashboard.html">Dashboard Saya</a>
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/tamu/reservasi-saya.html">Reservasi Saya</a>
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/tamu/profil.html">Profil Saya</a>
+                </nav>
+                <div class="flex items-center gap-4">
+                    <!-- Tombol untuk pengguna yang BELUM login -->
+                    <div id="guestSpecificLinks" class="flex items-center gap-3" style="display: none;">
+                        <a href="/login.html">
+                            <button class="btn-secondary flex items-center justify-center rounded-lg h-10 px-4 text-sm font-semibold transition-colors min-w-[84px] hover:bg-opacity-80">Login</button>
+                        </a>
+                        <a href="/register.html">
+                            <button class="btn-primary flex items-center justify-center rounded-lg h-10 px-4 text-sm font-semibold transition-colors min-w-[84px] hover:bg-opacity-80">Sign Up</button>
+                        </a>
+                    </div>
+
+                    <!-- Tampilan untuk pengguna yang SUDAH login -->
+                    <div id="userSpecificLinks" class="flex items-center gap-3" style="display: none;">
+                        <div id="userAvatar" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 shadow-sm border-2 border-[var(--primary-color)] flex items-center justify-center text-white font-bold">
+                        </div>
+                        <button id="headerLogoutButton" class="btn-secondary flex items-center justify-center rounded-lg h-10 px-4 text-sm font-semibold transition-colors min-w-[84px] hover:bg-opacity-80">Logout</button>
+                    </div>
+                </div>
+            </header>
+
+            <main class="main-content-area px-6 md:px-10 lg:px-20 flex flex-1 justify-center py-12">
+                <div class="layout-content-container flex flex-col max-w-4xl w-full flex-1 gap-8">
+                    
+                    <!-- Loading State -->
+                    <div id="loading-state" class="text-center py-12">
+                        <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--primary-color)]"></div>
+                        <p class="text-[var(--text-muted-color)] mt-4">Memuat data pembayaran...</p>
+                    </div>
+
+                    <!-- Error State -->
+                    <div id="error-state" class="text-center py-12" style="display: none;">
+                        <div class="text-red-500 text-6xl mb-4">⚠️</div>
+                        <h2 class="text-2xl font-bold text-[var(--text-color)] mb-2">Terjadi Kesalahan</h2>
+                        <p id="error-message" class="text-[var(--text-muted-color)] mb-4"></p>
+                        <button onclick="location.reload()" class="btn-primary px-6 py-2 rounded-lg">Coba Lagi</button>
+                    </div>
+
+                    <!-- Main Content -->
+                    <div id="main-content" style="display: none;">
+                        <!-- Header -->
+                        <div class="text-center mb-8">
+                            <h1 class="text-[var(--primary-color)] tracking-tight text-4xl font-bold">Pembayaran Reservasi</h1>
+                            <p class="text-[var(--text-muted-color)] text-lg mt-2">Selesaikan pembayaran untuk reservasi Anda</p>
+                        </div>
+
+                        <!-- Reservation Details -->
+                        <div id="reservation-details" class="payment-card">
+                            <!-- Content will be populated by JavaScript -->
+                        </div>
+
+                        <!-- Payment Status -->
+                        <div id="payment-status" class="payment-card" style="display: none;">
+                            <!-- Content will be populated by JavaScript -->
+                        </div>
+
+                        <!-- Payment Form -->
+                        <div id="payment-form" class="payment-card" style="display: none;">
+                            <h3 class="text-xl font-semibold text-[var(--primary-color)] mb-6">Pilih Metode Pembayaran</h3>
+                            
+                            <form id="paymentFormElement">
+                                <!-- Payment Methods -->
+                                <div class="mb-6">
+                                    <div class="payment-method-option" data-method="transfer">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center">
+                                                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"/>
+                                                    </svg>
+                                                </div>
+                                                <div>
+                                                    <h4 class="font-semibold text-[var(--text-color)]">Transfer Bank</h4>
+                                                    <p class="text-sm text-[var(--text-muted-color)]">Transfer ke rekening hotel</p>
+                                                </div>
+                                            </div>
+                                            <div class="text-green-500 font-bold">REKOMENDASI</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="payment-method-option" data-method="ewallet">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center">
+                                                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+                                                    </svg>
+                                                </div>
+                                                <div>
+                                                    <h4 class="font-semibold text-[var(--text-color)]">E-Wallet</h4>
+                                                    <p class="text-sm text-[var(--text-muted-color)]">GoPay, OVO, DANA, ShopeePay</p>
+                                                </div>
+                                            </div>
+                                            <div class="text-blue-500 font-bold">CEPAT</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="payment-method-option" data-method="kartu_kredit">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-12 h-12 bg-orange-600 rounded-lg flex items-center justify-center">
+                                                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm0 2h12v2H4V6zm0 4h12v4H4v-4z"/>
+                                                    </svg>
+                                                </div>
+                                                <div>
+                                                    <h4 class="font-semibold text-[var(--text-color)]">Kartu Kredit</h4>
+                                                    <p class="text-sm text-[var(--text-muted-color)]">Visa, Mastercard, JCB</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="payment-method-option" data-method="tunai">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center gap-3">
+                                                <div class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center">
+                                                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M4 4a2 2 0 100 4h12a2 2 0 100-4H4zM4 10a2 2 0 100 4h12a2 2 0 100-4H4z"/>
+                                                    </svg>
+                                                </div>
+                                                <div>
+                                                    <h4 class="font-semibold text-[var(--text-color)]">Bayar di Hotel</h4>
+                                                    <p class="text-sm text-[var(--text-muted-color)]">Bayar tunai saat check-in</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Payment Details -->
+                                <div id="payment-details" style="display: none;">
+                                    <div class="mb-4">
+                                        <label class="block text-sm font-medium text-[var(--text-color)] mb-2">Catatan Pembayaran (Opsional)</label>
+                                        <textarea id="payment-notes" class="form-input" rows="3" placeholder="Catatan atau permintaan khusus..."></textarea>
+                                    </div>
+                                </div>                                <!-- Action Buttons -->
+                                <div class="flex gap-4 mt-8">
+                                    <button type="button" onclick="history.back()" class="btn-secondary px-6 py-3 rounded-lg flex-1">
+                                        Kembali
+                                    </button>
+                                    <button type="button" id="cancel-reservation" class="btn-danger px-6 py-3 rounded-lg flex-1">
+                                        Batalkan Reservasi
+                                    </button>
+                                    <button type="submit" id="submit-payment" class="btn-primary px-6 py-3 rounded-lg flex-1" disabled>
+                                        Proses Pembayaran
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Payment Instructions -->
+                        <div id="payment-instructions" class="payment-card" style="display: none;">
+                            <h3 class="text-xl font-semibold text-[var(--primary-color)] mb-4">Instruksi Pembayaran</h3>
+                            <div id="instructions-content">
+                                <!-- Content will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <footer class="bg-[var(--background-color)] border-t border-[var(--secondary-color)] py-12 px-10 text-center">
+                <p class="text-[var(--text-muted-color)] text-sm">© 2025 The Grand Royale Hotel. Hak Cipta Dilindungi.</p>
+            </footer>
+        </div>
+    </div>
+
+    <script src="/js/shared/utils.js"></script>
+    <script src="/js/shared/auth.js"></script>
+    <script src="/js/tamu/pembayaran.js"></script>
+</body>
+</html>

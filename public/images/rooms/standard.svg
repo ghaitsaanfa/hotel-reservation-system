@@ -1,0 +1,46 @@
+<svg width="400" height="250" viewBox="0 0 400 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="400" height="250" fill="#f8f4e6"/>
+  
+  <!-- Floor -->
+  <rect y="200" width="400" height="50" fill="#8B4513"/>
+  
+  <!-- Wall -->
+  <rect width="400" height="200" fill="#e6dcc4"/>
+  
+  <!-- Bed -->
+  <rect x="50" y="120" width="120" height="80" rx="10" fill="#ffffff"/>
+  <rect x="55" y="125" width="110" height="70" rx="5" fill="#f0f0f0"/>
+  <rect x="60" y="130" width="100" height="15" fill="#cf7010"/>
+  
+  <!-- Pillows -->
+  <rect x="65" y="135" width="20" height="15" rx="7" fill="#ffffff"/>
+  <rect x="90" y="135" width="20" height="15" rx="7" fill="#ffffff"/>
+  <rect x="115" y="135" width="20" height="15" rx="7" fill="#ffffff"/>
+  
+  <!-- Side table -->
+  <rect x="200" y="150" width="40" height="50" rx="5" fill="#8B4513"/>
+  <rect x="205" y="145" width="30" height="5" fill="#654321"/>
+  
+  <!-- Lamp -->
+  <rect x="215" y="130" width="6" height="15" fill="#654321"/>
+  <rect x="210" y="125" width="16" height="8" rx="8" fill="#ffffff"/>
+  
+  <!-- Window -->
+  <rect x="280" y="60" width="80" height="60" rx="5" fill="#87CEEB"/>
+  <rect x="280" y="60" width="80" height="60" rx="5" stroke="#654321" stroke-width="3" fill="none"/>
+  <line x1="320" y1="60" x2="320" y2="120" stroke="#654321" stroke-width="2"/>
+  <line x1="280" y1="90" x2="360" y2="90" stroke="#654321" stroke-width="2"/>
+  
+  <!-- Curtains -->
+  <rect x="270" y="50" width="15" height="80" fill="#cf7010"/>
+  <rect x="365" y="50" width="15" height="80" fill="#cf7010"/>
+  
+  <!-- Chair -->
+  <rect x="320" y="160" width="30" height="40" rx="5" fill="#8B4513"/>
+  <rect x="325" y="155" width="20" height="5" fill="#654321"/>
+  <rect x="325" y="150" width="20" height="15" rx="10" fill="#8B4513"/>
+  
+  <!-- Title -->
+  <text x="200" y="230" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#654321">Standard Room</text>
+</svg>

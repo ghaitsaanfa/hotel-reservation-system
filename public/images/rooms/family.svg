@@ -1,0 +1,84 @@
+<svg width="400" height="250" viewBox="0 0 400 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="400" height="250" fill="#f8f4e6"/>
+  
+  <!-- Floor -->
+  <rect y="200" width="400" height="50" fill="#8B4513"/>
+  
+  <!-- Wall -->
+  <rect width="400" height="200" fill="#e6dcc4"/>
+  
+  <!-- Double Bed (Parents) -->
+  <rect x="20" y="100" width="120" height="80" rx="10" fill="#ffffff"/>
+  <rect x="25" y="105" width="110" height="70" rx="5" fill="#f0f0f0"/>
+  <rect x="30" y="110" width="100" height="15" fill="#cf7010"/>
+  
+  <!-- Pillows for main bed -->
+  <rect x="35" y="115" width="20" height="15" rx="7" fill="#ffffff"/>
+  <rect x="60" y="115" width="20" height="15" rx="7" fill="#ffffff"/>
+  <rect x="85" y="115" width="20" height="15" rx="7" fill="#ffffff"/>
+  <rect x="110" y="115" width="20" height="15" rx="7" fill="#ffffff"/>
+  
+  <!-- Bunk Bed for Kids -->
+  <rect x="160" y="140" width="80" height="60" rx="5" fill="#ffffff"/>
+  <rect x="165" y="145" width="70" height="50" rx="3" fill="#f0f0f0"/>
+  <rect x="170" y="150" width="60" height="10" fill="#228B22"/>
+  
+  <!-- Top Bunk -->
+  <rect x="160" y="90" width="80" height="40" rx="5" fill="#ffffff"/>
+  <rect x="165" y="95" width="70" height="30" rx="3" fill="#f0f0f0"/>
+  <rect x="170" y="100" width="60" height="8" fill="#228B22"/>
+  
+  <!-- Bunk bed ladder -->
+  <rect x="150" y="90" width="8" height="110" fill="#8B4513"/>
+  <rect x="148" y="100" width="12" height="3" fill="#8B4513"/>
+  <rect x="148" y="120" width="12" height="3" fill="#8B4513"/>
+  <rect x="148" y="140" width="12" height="3" fill="#8B4513"/>
+  <rect x="148" y="160" width="12" height="3" fill="#8B4513"/>
+  <rect x="148" y="180" width="12" height="3" fill="#8B4513"/>
+  
+  <!-- Kids pillows -->
+  <rect x="175" y="105" width="15" height="10" rx="5" fill="#ffffff"/>
+  <rect x="195" y="105" width="15" height="10" rx="5" fill="#ffffff"/>
+  <rect x="175" y="155" width="15" height="10" rx="5" fill="#ffffff"/>
+  <rect x="195" y="155" width="15" height="10" rx="5" fill="#ffffff"/>
+  
+  <!-- Family Table -->
+  <rect x="260" y="140" width="50" height="60" rx="5" fill="#8B4513"/>
+  <rect x="265" y="135" width="40" height="5" fill="#654321"/>
+  
+  <!-- Chairs around table -->
+  <rect x="245" y="150" width="20" height="30" rx="3" fill="#654321"/>
+  <rect x="250" y="145" width="10" height="5" fill="#8B4513"/>
+  <rect x="315" y="150" width="20" height="30" rx="3" fill="#654321"/>
+  <rect x="320" y="145" width="10" height="5" fill="#8B4513"/>
+  
+  <!-- Window -->
+  <rect x="280" y="60" width="80" height="60" rx="5" fill="#87CEEB"/>
+  <rect x="280" y="60" width="80" height="60" rx="5" stroke="#654321" stroke-width="3" fill="none"/>
+  <line x1="320" y1="60" x2="320" y2="120" stroke="#654321" stroke-width="2"/>
+  <line x1="280" y1="90" x2="360" y2="90" stroke="#654321" stroke-width="2"/>
+  
+  <!-- Playground view -->
+  <rect x="290" y="100" width="15" height="15" fill="#228B22"/>
+  <rect x="310" y="105" width="10" height="10" fill="#228B22"/>
+  <circle cx="340" cy="110" r="8" fill="#228B22"/>
+  
+  <!-- Curtains -->
+  <rect x="270" y="50" width="15" height="80" fill="#cf7010"/>
+  <rect x="365" y="50" width="15" height="80" fill="#cf7010"/>
+  
+  <!-- Toy box -->
+  <rect x="320" y="160" width="30" height="40" rx="5" fill="#8B4513"/>
+  <rect x="325" y="155" width="20" height="5" fill="#654321"/>
+  <circle cx="330" cy="170" r="3" fill="#cf7010"/>
+  <circle cx="340" cy="180" r="4" fill="#228B22"/>
+  <rect x="335" y="175" width="8" height="8" fill="#4682B4"/>
+  
+  <!-- Family Room Sign -->
+  <rect x="360" y="170" width="35" height="25" rx="3" fill="#cf7010"/>
+  <text x="377" y="185" text-anchor="middle" font-family="Arial, sans-serif" font-size="8" fill="#ffffff">KIDS</text>
+  
+  <!-- Title -->
+  <text x="200" y="230" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#654321">Family Room</text>
+</svg>

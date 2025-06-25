@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Kamar - Resepsionis - The Grand Royale Hotel</title>
+    <link href="data:image/svg+xml,%3Csvg width='48' height='48' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21            switch (status) {
+                case 'Tersedia': return 'tersedia';
+                case 'Ditempati': return 'ditempati';
+                case 'Dipesan': return 'dipesan';
+                case 'Maintenance': return 'maintenance';
+                default: return 'tersedia';
+            }.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z' fill='%23CF7010'/%3E%3C/svg%3E" rel="icon" type="image/svg+xml"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- Styling Konsisten Resepsionis -->
+    <link rel="stylesheet" href="../css/resepsionis-common.css">
+    <style type="text/tailwindcss">
+      :root {
+        --primary-color: #cf7010; 
+        --secondary-color: #393028;
+        --background-color: #181411;
+        --card-bg-color: #24211e; 
+        --text-color: #ffffff; 
+        --text-muted-color: #b9ab9d; 
+        --input-bg-color: #2c2825;
+        --input-border-color: #4d4237;
+        --input-focus-border-color: var(--primary-color);
+        --table-header-bg: #2a2724;
+        --table-row-hover-bg: #2f2c29;
+        --success-color: #10B981;
+        --danger-color: #EF4444;
+        --warning-color: #F59E0B;
+        --info-color: #3B82F6;
+        --gray-color: #6B7280;
+      }
+      
+      body {
+        font-family: "Noto Serif", "Noto Sans", sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        margin: 0;
+      }
+      
+      .header-standard {
+        background-color: var(--background-color);
+        border-bottom: 1px solid var(--secondary-color);
+        color: var(--text-color);
+      }
+      
+      .header-standard .header-brand-icon-color svg { color: var(--primary-color); }
+      .header-standard .header-text-color { color: var(--text-color); }
+      .header-standard .header-nav-link-color { color: var(--text-muted-color); }
+      .header-standard .header-nav-link-color:hover { color: var(--primary-color); }
+      .header-standard .header-nav-link-color.active { color: var(--primary-color); font-weight: 600; }
+
+      .main-content-area { background-color: #1a1816; }
+      .btn-primary { background-color: var(--primary-color); color: var(--text-color); border: none; padding: 0.5rem 1rem; border-radius: 0.375rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+      .btn-primary:hover { background-color: #e08220; }
+      .btn-secondary { background-color: var(--secondary-color); color: var(--text-color); border: none; padding: 0.5rem 1rem; border-radius: 0.375rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+      .btn-secondary:hover { background-color: #4d4237; }
+      .btn-success { background-color: var(--success-color); color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.375rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+      .btn-success:hover { background-color: #059669; }
+      .btn-danger { background-color: var(--danger-color); color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.375rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+      .btn-danger:hover { background-color: #DC2626; }
+      .btn-warning { background-color: var(--warning-color); color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.375rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+      .btn-warning:hover { background-color: #D97706; }
+      .btn-info { background-color: var(--info-color); color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.375rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+      .btn-info:hover { background-color: #2563EB; }
+      .btn-sm { padding: 0.25rem 0.5rem; font-size: 0.875rem; }
+      
+      .form-input, .form-select {
+        background-color: var(--input-bg-color);
+        border: 1px solid var(--input-border-color);
+        color: var(--text-color);
+        border-radius: 0.375rem;
+        padding: 0.5rem 0.75rem;
+        width: 100%;
+      }
+      .form-input:focus, .form-select:focus {
+        border-color: var(--input-focus-border-color);
+        box-shadow: 0 0 0 1px var(--input-focus-border-color);
+        outline: none;
+      }
+      
+      .table-container { 
+        background-color: var(--card-bg-color); 
+        border: 1px solid var(--secondary-color); 
+        border-radius: 0.5rem;
+        overflow: hidden;
+      }
+      .table { width: 100%; border-collapse: collapse; }
+      .table thead th { 
+        background-color: var(--table-header-bg); 
+        padding: 1rem; 
+        text-align: left; 
+        font-weight: 600; 
+        border-bottom: 1px solid var(--secondary-color);
+      }
+      .table tbody td { 
+        padding: 1rem; 
+        border-bottom: 1px solid var(--input-border-color); 
+      }
+      .table tbody tr:hover { background-color: var(--table-row-hover-bg); }
+      .table tbody tr:last-child td { border-bottom: none; }
+        .status-badge {
+        padding: 0.25rem 0.75rem;
+        border-radius: 0.375rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        display: inline-block;
+        min-width: 100px;
+        text-align: center;
+        border: 1px solid;
+      }
+      
+      .status-tersedia { background-color: var(--success-color); color: white; border-color: #059669; }
+      .status-ditempati { background-color: var(--danger-color); color: white; border-color: #DC2626; }
+      .status-dipesan { background-color: var(--info-color); color: white; border-color: #2563EB; }
+      .status-maintenance { background-color: var(--warning-color); color: white; border-color: #D97706; }
+      .status-tidak-tersedia { background-color: var(--gray-color); color: white; border-color: #4B5563; }
+      
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+      
+      .stat-card {
+        background-color: var(--card-bg-color);
+        border: 1px solid var(--secondary-color);
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        text-align: center;
+      }
+      
+      .stat-number {
+        font-size: 2rem;
+        font-weight: bold;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+      }
+      
+      .stat-label {
+        color: var(--text-muted-color);
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      
+      .filter-section {
+        background-color: var(--card-bg-color);
+        border: 1px solid var(--secondary-color);
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+      }
+      
+      .loading {
+        display: none;
+        text-align: center;
+        padding: 2rem;
+        color: var(--text-muted-color);
+      }
+      
+      .error-message {
+        background-color: #EF4444;
+        color: white;
+        padding: 1rem;
+        border-radius: 0.375rem;
+        margin-bottom: 1rem;
+        display: none;
+      }
+      
+      .success-message {
+        background-color: #10B981;
+        color: white;
+        padding: 1rem;
+        border-radius: 0.375rem;
+        margin-bottom: 1rem;
+        display: none;
+      }
+      
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
+      }
+      
+      .modal-content {
+        background-color: var(--card-bg-color);
+        margin: 5% auto;
+        padding: 2rem;
+        border: 1px solid var(--secondary-color);
+        border-radius: 0.5rem;
+        width: 90%;
+        max-width: 600px;
+        max-height: 80vh;
+        overflow-y: auto;
+      }
+      
+      .close {
+        color: var(--text-muted-color);
+        float: right;
+        font-size: 1.5rem;
+        font-weight: bold;
+        cursor: pointer;
+        line-height: 1;
+      }
+      
+      .close:hover {
+        color: var(--primary-color);
+      }
+      
+      .action-buttons {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+      
+      .filter-section {
+        background-color: var(--card-bg-color);
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid var(--secondary-color);
+      }
+      
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .stat-card {
+        background-color: var(--card-bg-color);
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        border: 1px solid var(--secondary-color);
+        text-align: center;
+      }
+      
+      .stat-number {
+        font-size: 2rem;
+        font-weight: bold;
+        color: var(--primary-color);
+      }
+      
+      .stat-label {
+        color: var(--text-muted-color);
+        font-size: 0.875rem;
+        margin-top: 0.5rem;
+      }
+    </style>
+</head>
+<body>
+    <div class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <!-- Header -->
+            <header class="header-standard flex items-center justify-between whitespace-nowrap px-6 md:px-10 py-4 shadow-md">
+                <div class="flex items-center gap-3">
+                    <div class="size-8 header-brand-icon-color">
+                        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M8.25 6h7.5m-7.5 3h7.5m-7.5 3h7.5m-7.5 3h7.5M3 12h18" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                    </div>
+                    <a href="/resepsionis/dashboard.html" class="text-xl font-bold leading-tight tracking-[-0.015em] header-text-color">The Grand Royale - Resepsionis</a>
+                </div>
+                <nav class="hidden md:flex flex-1 justify-center items-center gap-6 lg:gap-8">                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/resepsionis/dashboard.html">Dashboard</a>
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/resepsionis/manajemen-reservasi.html">Kelola Reservasi</a>
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/resepsionis/kelola-pembayaran.html">Kelola Pembayaran</a>
+                    <a class="header-nav-link-color active text-sm font-medium leading-normal transition-colors" href="/resepsionis/manajemen-kamar.html">Manajemen Kamar</a>
+                </nav>
+                <div class="flex items-center gap-4">
+                    <button id="logoutBtn" class="btn-secondary">Logout</button>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="main-content-area flex-1 px-6 md:px-10 py-6">
+                <div class="max-w-7xl mx-auto">
+                    <div class="flex items-center justify-between mb-6">
+                        <h1 class="text-3xl font-bold">Manajemen Kamar</h1>
+                        <button id="refreshBtn" class="btn-primary">
+                            <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                            </svg>
+                            Refresh
+                        </button>
+                    </div>
+
+                    <!-- Error/Success Messages -->
+                    <div id="errorMessage" class="error-message"></div>
+                    <div id="successMessage" class="success-message"></div>
+
+                    <!-- Statistics -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number" id="totalRooms">0</div>
+                            <div class="stat-label">Total Kamar</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="availableRooms">0</div>
+                            <div class="stat-label">Tersedia</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="occupiedRooms">0</div>
+                            <div class="stat-label">Ditempati</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="maintenanceRooms">0</div>
+                            <div class="stat-label">Maintenance</div>
+                        </div>                        <div class="stat-card">
+                            <div class="stat-number" id="bookedRooms">0</div>
+                            <div class="stat-label">Dipesan</div>
+                        </div>
+                    </div>
+
+                    <!-- Filter Section -->
+                    <div class="filter-section">
+                        <h3 class="text-lg font-semibold mb-4">Filter & Pencarian</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Cari Kamar</label>
+                                <input type="text" id="searchInput" class="form-input" placeholder="No. Kamar atau Tipe">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Filter Status</label>                                <select id="statusFilter" class="form-select">
+                                    <option value="">Semua Status</option>
+                                    <option value="Tersedia">Tersedia</option>
+                                    <option value="Ditempati">Ditempati</option>
+                                    <option value="Dipesan">Dipesan</option>
+                                    <option value="Siap Check-in">Siap Check-in</option>
+                                    <option value="Maintenance">Maintenance</option>
+                                    <option value="Tidak Tersedia">Tidak Tersedia</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Filter Tipe</label>
+                                <select id="typeFilter" class="form-select">
+                                    <option value="">Semua Tipe</option>
+                                    <option value="Standard">Standard</option>
+                                    <option value="Superior">Superior</option>
+                                    <option value="Deluxe">Deluxe</option>
+                                    <option value="Suite">Suite</option>
+                                    <option value="Family">Family</option>
+                                </select>
+                            </div>
+                            <div class="flex items-end">
+                                <button id="clearFilters" class="btn-secondary w-full">Clear Filter</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Loading -->
+                    <div id="loading" class="loading">
+                        <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                        <p class="mt-2">Memuat data kamar...</p>
+                    </div>
+
+                    <!-- Rooms Table -->
+                    <div class="table-container">
+                        <table class="table">                            <thead>
+                                <tr>
+                                    <th>No. Kamar</th>
+                                    <th>Tipe</th>
+                                    <th>Harga</th>
+                                    <th>Kapasitas</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="roomsTable">
+                                <!-- Data akan dimuat di sini -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Room Detail Modal -->
+    <div id="roomDetailModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('roomDetailModal')">&times;</span>
+            <h2 class="text-xl font-bold mb-4">Detail Kamar</h2>
+            <div id="roomDetailContent">
+                <!-- Detail content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Status Modal -->
+    <div id="changeStatusModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('changeStatusModal')">&times;</span>
+            <h2 class="text-xl font-bold mb-4">Ubah Status Kamar</h2>
+            <form id="changeStatusForm">
+                <input type="hidden" id="roomIdStatus" name="roomId">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-2">Kamar</label>
+                    <p id="roomInfoStatus" class="text-lg font-semibold text-primary"></p>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-2">Status Baru</label>                    <select id="newStatus" name="status" class="form-select" required>
+                        <option value="">Pilih Status</option>
+                        <option value="Tersedia">Tersedia</option>
+                        <option value="Maintenance">Maintenance</option>
+                    </select>
+                </div>
+                <div class="flex gap-2">
+                    <button type="submit" class="btn-primary">Simpan</button>
+                    <button type="button" class="btn-secondary" onclick="closeModal('changeStatusModal')">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let allRooms = [];
+        let filteredRooms = [];
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadRooms();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            document.getElementById('refreshBtn').addEventListener('click', loadRooms);
+            document.getElementById('searchInput').addEventListener('input', filterRooms);
+            document.getElementById('statusFilter').addEventListener('change', filterRooms);
+            document.getElementById('typeFilter').addEventListener('change', filterRooms);
+            document.getElementById('clearFilters').addEventListener('click', clearFilters);
+            document.getElementById('changeStatusForm').addEventListener('submit', handleStatusChange);
+            document.getElementById('logoutBtn').addEventListener('click', logout);
+        }
+
+        async function loadRooms() {
+            try {
+                showLoading(true);
+                const response = await fetch('/api/kamar');
+                const data = await response.json();
+
+                if (response.ok) {
+                    allRooms = data.data;
+                    filteredRooms = [...allRooms];
+                    displayRooms();
+                    updateStatistics();
+                    hideMessage();
+                } else {
+                    showError(data.error || 'Gagal memuat data kamar');
+                }
+            } catch (error) {
+                console.error('Error loading rooms:', error);
+                showError('Terjadi kesalahan saat memuat data kamar');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function displayRooms() {
+            const tbody = document.getElementById('roomsTable');
+              if (filteredRooms.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center text-gray-500 py-8">Tidak ada data kamar</td></tr>';
+                return;
+            }tbody.innerHTML = filteredRooms.map(room => `
+                <tr>
+                    <td class="font-semibold">${room.no_kamar}</td>
+                    <td>${room.tipe}</td>
+                    <td>Rp ${parseInt(room.harga).toLocaleString('id-ID')}</td>
+                    <td>${room.kapasitas_maks} orang</td>
+                    <td>
+                        <span class="status-badge status-${getStatusClass(room.status_aktual)}">
+                            ${room.status_aktual}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-info btn-sm" onclick="showRoomDetail('${room.id_kamar}')">
+                                Detail
+                            </button>
+                            <button class="btn-warning btn-sm" onclick="showChangeStatus('${room.id_kamar}', '${room.no_kamar}', '${room.tipe}')">
+                                Ubah Status
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function getStatusClass(status) {
+            switch(status) {
+                case 'Tersedia': return 'tersedia';
+                case 'Ditempati': return 'ditempati';
+                case 'Dipesan': return 'dipesan';
+                case 'Maintenance': return 'maintenance';
+                case 'Tidak Tersedia': return 'tidak-tersedia';
+                default: return 'tidak-tersedia';
+            }
+        }        function getStatusInfo(room) {
+            if (room.tamu_info) {
+                return `<strong>Tamu:</strong> ${room.tamu_info}`;
+            } else if (room.reservasi_info) {
+                return `<strong>${room.reservasi_info}</strong>`;
+            } else if (room.status === 'Maintenance') {
+                return '<em>Kamar sedang dalam perbaikan</em>';
+            }
+            return '<em>Kamar siap untuk reservasi</em>';
+        }        function updateStatistics() {
+            const stats = {
+                total: allRooms.length,
+                tersedia: allRooms.filter(r => r.status_aktual === 'Tersedia').length,
+                ditempati: allRooms.filter(r => r.status_aktual === 'Ditempati').length,
+                maintenance: allRooms.filter(r => r.status_aktual === 'Maintenance').length,
+                dipesan: allRooms.filter(r => r.status_aktual === 'Dipesan').length
+            };
+
+            document.getElementById('totalRooms').textContent = stats.total;
+            document.getElementById('availableRooms').textContent = stats.tersedia;
+            document.getElementById('occupiedRooms').textContent = stats.ditempati;
+            document.getElementById('maintenanceRooms').textContent = stats.maintenance;            document.getElementById('bookedRooms').textContent = stats.dipesan;
+        }
+
+        function filterRooms() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+            const typeFilter = document.getElementById('typeFilter').value;
+
+            filteredRooms = allRooms.filter(room => {
+                const matchSearch = room.no_kamar.toLowerCase().includes(search) || 
+                                  room.tipe.toLowerCase().includes(search);
+                const matchStatus = !statusFilter || room.status_aktual === statusFilter;
+                const matchType = !typeFilter || room.tipe === typeFilter;
+
+                return matchSearch && matchStatus && matchType;
+            });
+
+            displayRooms();
+        }
+
+        function clearFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('statusFilter').value = '';
+            document.getElementById('typeFilter').value = '';
+            filteredRooms = [...allRooms];
+            displayRooms();
+        }
+
+        async function showRoomDetail(roomId) {
+            try {
+                const response = await fetch(`/api/kamar/${roomId}`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    const room = data.data;
+                    const content = `
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <h3 class="font-semibold text-primary">Informasi Kamar</h3>
+                                    <p><strong>No. Kamar:</strong> ${room.no_kamar}</p>
+                                    <p><strong>Tipe:</strong> ${room.tipe}</p>
+                                    <p><strong>Harga:</strong> Rp ${parseInt(room.harga).toLocaleString('id-ID')}</p>
+                                    <p><strong>Kapasitas:</strong> ${room.kapasitas_maks} orang</p>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-primary">Deskripsi</h3>
+                                    <p>${room.deskripsi_kamar || 'Tidak ada deskripsi'}</p>
+                                </div>
+                            </div>
+                            
+                            ${room.current_guest ? `
+                                <div class="border-t pt-4">
+                                    <h3 class="font-semibold text-primary">Tamu Saat Ini</h3>
+                                    <p><strong>Nama:</strong> ${room.current_guest.nama_tamu}</p>
+                                    <p><strong>Check-in:</strong> ${formatDate(room.current_guest.tanggal_checkin)}</p>
+                                    <p><strong>Check-out:</strong> ${formatDate(room.current_guest.tanggal_checkout)}</p>
+                                    <p><strong>Jumlah Tamu:</strong> ${room.current_guest.jumlah_tamu} orang</p>
+                                    <p><strong>Status Reservasi:</strong> ${room.current_guest.status_reservasi}</p>
+                                </div>
+                            ` : ''}
+                            
+                            ${room.upcoming_reservations && room.upcoming_reservations.length > 0 ? `
+                                <div class="border-t pt-4">
+                                    <h3 class="font-semibold text-primary">Reservasi Mendatang</h3>
+                                    <div class="space-y-2">
+                                        ${room.upcoming_reservations.map(res => `
+                                            <div class="bg-gray-800 p-3 rounded">
+                                                <p><strong>${res.nama_tamu}</strong></p>
+                                                <p>${formatDate(res.tanggal_checkin)} - ${formatDate(res.tanggal_checkout)}</p>
+                                                <p>${res.jumlah_tamu} orang</p>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                    document.getElementById('roomDetailContent').innerHTML = content;
+                    document.getElementById('roomDetailModal').style.display = 'block';
+                } else {
+                    showError(data.error || 'Gagal memuat detail kamar');
+                }
+            } catch (error) {
+                console.error('Error loading room detail:', error);
+                showError('Terjadi kesalahan saat memuat detail kamar');
+            }
+        }
+
+        function showChangeStatus(roomId, roomNumber, roomType) {
+            document.getElementById('roomIdStatus').value = roomId;
+            document.getElementById('roomInfoStatus').textContent = `${roomNumber} (${roomType})`;
+            document.getElementById('newStatus').value = '';
+            document.getElementById('changeStatusModal').style.display = 'block';
+        }
+
+        async function handleStatusChange(e) {
+            e.preventDefault();
+            
+            const roomId = document.getElementById('roomIdStatus').value;
+            const newStatus = document.getElementById('newStatus').value;
+
+            try {
+                const response = await fetch(`/api/kamar/${roomId}/status`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify({ status: newStatus })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showSuccess('Status kamar berhasil diubah');
+                    closeModal('changeStatusModal');
+                    loadRooms();
+                } else {
+                    showError(data.error || 'Gagal mengubah status kamar');
+                }
+            } catch (error) {
+                console.error('Error updating room status:', error);
+                showError('Terjadi kesalahan saat mengubah status kamar');
+            }
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('id-ID', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => {
+                errorDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.getElementById('successMessage');
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+            setTimeout(() => {
+                successDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function hideMessage() {
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+        }
+
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = '/login.html';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

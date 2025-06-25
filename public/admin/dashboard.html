@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - The Grand Royale Hotel</title>
+    <link href="data:image/svg+xml,%3Csvg width='48' height='48' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z' fill='%23CF7010'/%3E%3C/svg%3E" rel="icon" type="image/svg+xml"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style type="text/tailwindcss">
+      :root {
+        --primary-color: #cf7010; 
+        --secondary-color: #393028;
+        --background-color: #181411;
+        --card-bg-color: #24211e; 
+        --text-color: #ffffff; 
+        --text-muted-color: #b9ab9d; 
+        --input-bg-color: #2c2825;
+        --input-border-color: #4d4237;
+        --input-focus-border-color: var(--primary-color);
+        --table-header-bg: #2a2724;
+        --table-row-hover-bg: #2f2c29;
+      }
+      body {
+        font-family: "Noto Serif", "Noto Sans", sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        margin: 0;
+      }
+      .header-standard {
+        background-color: var(--background-color);
+        border-bottom: 1px solid var(--secondary-color);
+        color: var(--text-color);
+      }
+      .header-standard .header-brand-icon-color svg { color: var(--primary-color); }
+      .header-standard .header-text-color { color: var(--text-color); }
+      .header-standard .header-nav-link-color { color: var(--text-muted-color); }
+      .header-standard .header-nav-link-color:hover { color: var(--primary-color); }
+      .header-standard .header-nav-link-color.active { color: var(--primary-color); font-weight: 600; }
+
+      .main-content-area { background-color: #1a1816; }
+      .btn-primary { background-color: var(--primary-color); color: var(--text-color); }
+      .btn-primary:hover { background-color: #e08220; }
+      .btn-secondary { background-color: var(--secondary-color); color: var(--text-color); }
+      .btn-secondary:hover { background-color: #4d4237; }
+      
+      .dashboard-card {
+        background-color: var(--card-bg-color);
+        border: 1px solid var(--input-border-color);
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      }
+      .dashboard-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 15px -3px rgba(207, 112, 16, 0.1), 0 4px 6px -2px rgba(207, 112, 16, 0.05);
+      }
+      .dashboard-card-title {
+        color: var(--primary-color);
+        font-size: 1.125rem;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+      }
+      .dashboard-card-text {
+        color: var(--text-muted-color);
+        font-size: 0.875rem;
+        margin-bottom: 1rem;
+      }
+      .dashboard-card-value {
+        color: var(--text-color);
+        font-size: 1.875rem;
+        font-weight: 700;
+      }
+
+      .mobile-menu-button { display: none; }
+      .mobile-menu { display: none; }
+      @media (max-width: 768px) {
+        .desktop-nav { display: none; }
+        .mobile-menu-button { display: block; }
+        .mobile-menu.show { display: block; }
+      }
+    </style>
+</head>
+<body class="dark">
+    <div class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">            <!-- Header untuk Admin -->
+            <header class="header-standard flex items-center justify-between whitespace-nowrap px-6 md:px-10 py-4 shadow-md">
+                <div class="flex items-center gap-3">
+                    <div class="size-8 header-brand-icon-color">
+                        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M8.25 6h7.5m-7.5 3h7.5m-7.5 3h7.5m-7.5 3h7.5M3 12h18" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </div>
+                    <a href="/admin/dashboard.html" class="text-xl font-bold leading-tight tracking-[-0.015em] header-text-color">The Grand Royale - Admin</a>
+                </div>
+                <nav class="hidden md:flex flex-1 justify-center items-center gap-4 lg:gap-6">
+                    <a class="header-nav-link-color active text-sm font-medium leading-normal transition-colors" href="/admin/dashboard.html">Dashboard</a>
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/admin/manajemen-kamar.html">Kamar</a>
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/admin/data-reservasi.html">Reservasi</a>
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/admin/data-pembayaran.html">Pembayaran</a>
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/admin/manajemen-tamu.html">Tamu</a>
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/admin/manajemen-resepsionis.html">Resepsionis</a>
+                </nav>
+                <div class="flex items-center gap-4">
+                    <div id="guestSpecificLinks" class="flex items-center gap-3" style="display: none;">
+                        <a href="/login.html?role=admin"> 
+                            <button class="btn-secondary flex items-center justify-center rounded-lg h-10 px-4 text-sm font-semibold transition-colors min-w-[84px] hover:bg-opacity-80">Login</button>
+                        </a>
+                    </div>
+                    <div id="userSpecificLinks" class="flex items-center gap-3" style="display: none;">
+                        <div id="userAvatar" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 shadow-sm border-2 border-[var(--primary-color)] flex items-center justify-center text-white font-bold"></div>
+                        <button id="headerLogoutButton" class="btn-secondary flex items-center justify-center rounded-lg h-10 px-4 text-sm font-semibold transition-colors min-w-[84px] hover:bg-opacity-80">Logout</button>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-[var(--text-muted-color)] hover:text-[var(--primary-color)]">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </header>            <div id="mobile-menu" class="md:hidden hidden bg-[var(--card-bg-color)] border-b border-[var(--secondary-color)] py-2">
+                <a class="block px-4 py-2 text-sm header-nav-link-color active" href="/admin/dashboard.html">Dashboard</a>
+                <a class="block px-4 py-2 text-sm header-nav-link-color" href="/admin/manajemen-kamar.html">Kamar</a>
+                <a class="block px-4 py-2 text-sm header-nav-link-color" href="/admin/data-reservasi.html">Reservasi</a>
+                <a class="block px-4 py-2 text-sm header-nav-link-color" href="/admin/data-pembayaran.html">Pembayaran</a>
+                <a class="block px-4 py-2 text-sm header-nav-link-color" href="/admin/manajemen-tamu.html">Tamu</a>
+                <a class="block px-4 py-2 text-sm header-nav-link-color" href="/admin/manajemen-resepsionis.html">Resepsionis</a>
+            </div>
+
+            <!-- Main Content Area -->
+            <main class="main-content-area p-6 md:p-10">
+                <div class="mb-8">
+                    <h1 class="text-3xl md:text-4xl font-bold text-[var(--primary-color)]">Selamat Datang, <span id="adminNameDisplay">Admin</span>!</h1>
+                    <p class="text-lg text-[var(--text-muted-color)]">Kelola operasional hotel Anda dengan mudah melalui dashboard ini.</p>
+                </div>
+
+                <!-- Ringkasan Statistik -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="dashboard-card">
+                        <h2 class="dashboard-card-title">Total Kamar</h2>
+                        <p class="dashboard-card-text">Jumlah seluruh kamar di hotel.</p>
+                        <p id="totalKamar" class="dashboard-card-value">0</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <h2 class="dashboard-card-title">Kamar Tersedia</h2>
+                        <p class="dashboard-card-text">Kamar yang dapat dipesan saat ini.</p>
+                        <p id="kamarTersedia" class="dashboard-card-value text-green-400">0</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <h2 class="dashboard-card-title">Total Tamu</h2>
+                        <p class="dashboard-card-text">Jumlah tamu terdaftar.</p>
+                        <p id="totalTamu" class="dashboard-card-value">0</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <h2 class="dashboard-card-title">Reservasi Aktif</h2>
+                        <p class="dashboard-card-text">Reservasi yang sedang berlangsung.</p>
+                        <p id="reservasiAktif" class="dashboard-card-value text-yellow-400">0</p>
+                    </div>
+                </div>
+
+                <!-- Statistik Tambahan -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="dashboard-card">
+                        <h2 class="dashboard-card-title">Total Resepsionis</h2>
+                        <p class="dashboard-card-text">Jumlah staff resepsionis aktif.</p>
+                        <p id="totalResepsionis" class="dashboard-card-value">0</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <h2 class="dashboard-card-title">Reservasi Hari Ini</h2>
+                        <p class="dashboard-card-text">Reservasi baru hari ini.</p>
+                        <p id="reservasiHariIni" class="dashboard-card-value text-blue-400">0</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <h2 class="dashboard-card-title">Pendapatan Bulan Ini</h2>
+                        <p class="dashboard-card-text">Total pendapatan bulan berjalan.</p>
+                        <p id="pendapatanBulan" class="dashboard-card-value text-green-400">Rp 0</p>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                    <a href="/admin/manajemen-kamar.html" class="dashboard-card hover:bg-[var(--input-bg-color)]">
+                        <h2 class="dashboard-card-title">Kelola Kamar</h2>
+                        <p class="dashboard-card-text">Tambah, edit, atau hapus data kamar hotel.</p>
+                    </a>
+                    <a href="/admin/data-reservasi.html" class="dashboard-card hover:bg-[var(--input-bg-color)]">
+                        <h2 class="dashboard-card-title">Kelola Reservasi</h2>
+                        <p class="dashboard-card-text">Pantau dan kelola reservasi dari tamu.</p>
+                    </a>
+                    <a href="/admin/manajemen-tamu.html" class="dashboard-card hover:bg-[var(--input-bg-color)]">
+                        <h2 class="dashboard-card-title">Kelola Tamu</h2>
+                        <p class="dashboard-card-text">Kelola data dan akun tamu hotel.</p>
+                    </a>
+                    <a href="/admin/manajemen-resepsionis.html" class="dashboard-card hover:bg-[var(--input-bg-color)]">
+                        <h2 class="dashboard-card-title">Kelola Resepsionis</h2>
+                        <p class="dashboard-card-text">Kelola data dan akun staff resepsionis.</p>
+                    </a>
+                    <a href="/admin/data-pembayaran.html" class="dashboard-card hover:bg-[var(--input-bg-color)]">
+                        <h2 class="dashboard-card-title">Data Pembayaran</h2>
+                        <p class="dashboard-card-text">Lihat dan kelola data pembayaran.</p>
+                    </a>
+                </div>
+
+                <!-- Recent Reservations -->
+                <div class="dashboard-card">
+                    <h3 class="text-xl font-bold mb-4 text-[var(--primary-color)]">Reservasi Terbaru</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="border-b border-[var(--input-border-color)]">
+                                    <th class="text-left py-3 px-4 text-[var(--text-color)]">ID</th>
+                                    <th class="text-left py-3 px-4 text-[var(--text-color)]">Nama Tamu</th>
+                                    <th class="text-left py-3 px-4 text-[var(--text-color)]">Kamar</th>
+                                    <th class="text-left py-3 px-4 text-[var(--text-color)]">Check-in</th>
+                                    <th class="text-left py-3 px-4 text-[var(--text-color)]">Check-out</th>
+                                    <th class="text-left py-3 px-4 text-[var(--text-color)]">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reservasiTerbaru">
+                                <tr>
+                                    <td colspan="6" class="text-center py-8 text-[var(--text-muted-color)]">Memuat data reservasi...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>    <script src="/js/shared/auth.js"></script>
+    <script src="/js/shared/utils.js"></script>
+    <script src="/js/admin/dashboard.js"></script>
+    
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Logout functionality
+        document.getElementById('headerLogoutButton').addEventListener('click', function() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            window.location.href = '/login.html?role=admin';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<svg width="400" height="250" viewBox="0 0 400 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="400" height="250" fill="#f8f4e6"/>
+  
+  <!-- Floor -->
+  <rect y="200" width="400" height="50" fill="#8B4513"/>
+  
+  <!-- Wall -->
+  <rect width="400" height="200" fill="#e6dcc4"/>
+  
+  <!-- Larger Bed -->
+  <rect x="40" y="110" width="140" height="90" rx="10" fill="#ffffff"/>
+  <rect x="45" y="115" width="130" height="80" rx="5" fill="#f0f0f0"/>
+  <rect x="50" y="120" width="120" height="18" fill="#cf7010"/>
+  
+  <!-- More Pillows -->
+  <rect x="55" y="125" width="25" height="18" rx="9" fill="#ffffff"/>
+  <rect x="85" y="125" width="25" height="18" rx="9" fill="#ffffff"/>
+  <rect x="115" y="125" width="25" height="18" rx="9" fill="#ffffff"/>
+  <rect x="145" y="125" width="25" height="18" rx="9" fill="#ffffff"/>
+  
+  <!-- Elegant Side table -->
+  <rect x="200" y="140" width="50" height="60" rx="5" fill="#654321"/>
+  <rect x="205" y="135" width="40" height="5" fill="#8B4513"/>
+  
+  <!-- Table Lamp -->
+  <rect x="220" y="115" width="8" height="20" fill="#654321"/>
+  <rect x="212" y="105" width="24" height="12" rx="12" fill="#ffffff"/>
+  <circle cx="224" cy="111" r="3" fill="#cf7010"/>
+  
+  <!-- Larger Window -->
+  <rect x="270" y="50" width="100" height="80" rx="5" fill="#87CEEB"/>
+  <rect x="270" y="50" width="100" height="80" rx="5" stroke="#654321" stroke-width="3" fill="none"/>
+  <line x1="320" y1="50" x2="320" y2="130" stroke="#654321" stroke-width="2"/>
+  <line x1="270" y1="90" x2="370" y2="90" stroke="#654321" stroke-width="2"/>
+  
+  <!-- Elegant Curtains -->
+  <rect x="260" y="40" width="20" height="100" fill="#cf7010"/>
+  <rect x="370" y="40" width="20" height="100" fill="#cf7010"/>
+  
+  <!-- Armchair -->
+  <rect x="300" y="150" width="40" height="50" rx="5" fill="#654321"/>
+  <rect x="305" y="145" width="30" height="5" fill="#8B4513"/>
+  <rect x="305" y="135" width="30" height="20" rx="15" fill="#654321"/>
+  <rect x="290" y="155" width="15" height="30" rx="7" fill="#654321"/>
+  <rect x="345" y="155" width="15" height="30" rx="7" fill="#654321"/>
+  
+  <!-- Coffee Table -->
+  <rect x="250" y="170" width="35" height="30" rx="5" fill="#8B4513"/>
+  <rect x="255" y="165" width="25" height="5" fill="#654321"/>
+  
+  <!-- Title -->
+  <text x="200" y="230" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#654321">Superior Room</text>
+</svg>

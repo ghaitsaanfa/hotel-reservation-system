@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Kamar - Admin - The Grand Royale Hotel</title>
+    <link href="data:image/svg+xml,%3Csvg width='48' height='48' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z' fill='%23CF7010'/%3E%3C/svg%3E" rel="icon" type="image/svg+xml"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style type="text/tailwindcss">
+      :root {
+        --primary-color: #cf7010; 
+        --secondary-color: #393028;
+        --background-color: #181411;
+        --card-bg-color: #24211e; 
+        --text-color: #ffffff; 
+        --text-muted-color: #b9ab9d; 
+        --input-bg-color: #2c2825;
+        --input-border-color: #4d4237;
+        --input-focus-border-color: var(--primary-color);
+        --table-header-bg: #2a2724;
+        --table-row-hover-bg: #2f2c29;
+      }
+      body {
+        font-family: "Noto Serif", "Noto Sans", sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        margin: 0;
+      }
+      .header-standard {
+        background-color: var(--background-color);
+        border-bottom: 1px solid var(--secondary-color);
+        color: var(--text-color);
+      }
+      .header-standard .header-brand-icon-color svg { color: var(--primary-color); }
+      .header-standard .header-text-color { color: var(--text-color); }
+      .header-standard .header-nav-link-color { color: var(--text-muted-color); }
+      .header-standard .header-nav-link-color:hover { color: var(--primary-color); }
+      .header-standard .header-nav-link-color.active { color: var(--primary-color); font-weight: 600; }
+
+      .main-content-area { background-color: #1a1816; }
+      .btn-primary { background-color: var(--primary-color); color: var(--text-color); }
+      .btn-primary:hover { background-color: #e08220; }
+      .btn-secondary { background-color: var(--secondary-color); color: var(--text-color); }
+      .btn-secondary:hover { background-color: #4d4237; }
+      
+      .dashboard-card {
+        background-color: var(--card-bg-color);
+        border: 1px solid var(--input-border-color);
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      }
+      .dashboard-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(207, 112, 16, 0.1), 0 4px 6px -2px rgba(207, 112, 16, 0.05);
+      }
+      
+      .form-input {
+        background-color: var(--input-bg-color);
+        border: 1px solid var(--input-border-color);
+        color: var(--text-color);
+        border-radius: 0.5rem;
+        padding: 0.75rem;
+      }
+      .form-input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 1px var(--primary-color);
+      }
+      .form-input::placeholder {
+        color: var(--text-muted-color);
+      }
+    </style>
+</head>
+<body class="dark">
+    <div class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">            <!-- Header untuk Admin -->
+            <header class="header-standard flex items-center justify-between whitespace-nowrap px-6 md:px-10 py-4 shadow-md">
+                <div class="flex items-center gap-3">
+                    <div class="size-8 header-brand-icon-color">
+                        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M8.25 6h7.5m-7.5 3h7.5m-7.5 3h7.5m-7.5 3h7.5M3 12h18" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </div>
+                    <a href="/admin/dashboard.html" class="text-xl font-bold leading-tight tracking-[-0.015em] header-text-color">The Grand Royale - Admin</a>
+                </div>
+                <nav class="hidden md:flex flex-1 justify-center items-center gap-4 lg:gap-6">
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/admin/dashboard.html">Dashboard</a>
+                    <a class="header-nav-link-color active text-sm font-medium leading-normal transition-colors" href="/admin/manajemen-kamar.html">Kamar</a>
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/admin/data-reservasi.html">Reservasi</a>
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/admin/data-pembayaran.html">Pembayaran</a>
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/admin/manajemen-tamu.html">Tamu</a>
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/admin/manajemen-resepsionis.html">Resepsionis</a>
+                </nav>
+                <div class="flex items-center gap-4">
+                    <div id="guestSpecificLinks" class="flex items-center gap-3" style="display: none;">
+                        <a href="/login.html?role=admin"> 
+                            <button class="btn-secondary flex items-center justify-center rounded-lg h-10 px-4 text-sm font-semibold transition-colors min-w-[84px] hover:bg-opacity-80">Login</button>
+                        </a>
+                    </div>
+                    <div id="userSpecificLinks" class="flex items-center gap-3" style="display: none;">
+                        <div id="userAvatar" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 shadow-sm border-2 border-[var(--primary-color)] flex items-center justify-center text-white font-bold"></div>
+                        <button id="headerLogoutButton" class="btn-secondary flex items-center justify-center rounded-lg h-10 px-4 text-sm font-semibold transition-colors min-w-[84px] hover:bg-opacity-80">Logout</button>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-[var(--text-muted-color)] hover:text-[var(--primary-color)]">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </header>
+
+            <div id="mobile-menu" class="md:hidden hidden bg-[var(--card-bg-color)] border-b border-[var(--secondary-color)] py-2">
+                <a class="block px-4 py-2 text-sm header-nav-link-color" href="/admin/dashboard.html">Dashboard</a>
+                <a class="block px-4 py-2 text-sm header-nav-link-color active" href="/admin/manajemen-kamar.html">Kamar</a>
+                <a class="block px-4 py-2 text-sm header-nav-link-color" href="/admin/data-reservasi.html">Reservasi</a>
+                <a class="block px-4 py-2 text-sm header-nav-link-color" href="/admin/data-pembayaran.html">Pembayaran</a>
+                <a class="block px-4 py-2 text-sm header-nav-link-color" href="/admin/manajemen-tamu.html">Tamu</a>
+                <a class="block px-4 py-2 text-sm header-nav-link-color" href="/admin/manajemen-resepsionis.html">Resepsionis</a>
+            </div>
+
+            <!-- Main Content Area -->
+            <main class="main-content-area p-6 md:p-10">
+                <!-- Page Header -->
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                    <div>
+                        <h1 class="text-3xl md:text-4xl font-bold text-[var(--primary-color)]">Manajemen Kamar</h1>
+                        <p class="text-lg text-[var(--text-muted-color)]">Kelola kamar hotel Anda dengan mudah</p>
+                    </div>
+                    <button id="btnTambahKamar" class="btn-primary flex items-center justify-center rounded-lg h-12 px-6 text-sm font-semibold transition-colors">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                        Tambah Kamar
+                    </button>
+                </div>
+
+                <!-- Filter Controls -->
+                <div class="dashboard-card mb-6">
+                    <h3 class="text-lg font-semibold text-[var(--primary-color)] mb-4">Filter & Pencarian</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-[var(--text-color)] mb-2">Filter Tipe</label>
+                            <select id="filterTipe" class="form-input w-full">
+                                <option value="">Semua Tipe</option>
+                                <option value="Standard">Standard</option>
+                                <option value="Superior">Superior</option>
+                                <option value="Deluxe">Deluxe</option>
+                                <option value="Suite">Suite</option>
+                                <option value="Family">Family</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-[var(--text-color)] mb-2">Filter Status</label>
+                            <select id="filterStatus" class="form-input w-full">
+                                <option value="">Semua Status</option>
+                                <option value="Tersedia">Tersedia</option>
+                                <option value="Maintenance">Maintenance</option>
+                                <option value="Tidak Tersedia">Tidak Tersedia</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-[var(--text-color)] mb-2">Pencarian</label>
+                            <input type="text" id="searchKamar" placeholder="Cari nomor kamar..." class="form-input w-full">
+                        </div>
+                        <div class="flex items-end gap-2">
+                            <button id="btnFilter" class="btn-primary flex items-center justify-center rounded-lg h-12 px-4 text-sm font-semibold transition-colors">
+                                Filter
+                            </button>
+                            <button id="btnResetFilter" class="btn-secondary flex items-center justify-center rounded-lg h-12 px-4 text-sm font-semibold transition-colors">
+                                Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rooms Table -->
+                <div class="dashboard-card">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-[var(--primary-color)]">Daftar Kamar</h3>
+                        <div class="text-sm text-[var(--text-muted-color)]">
+                            Total: <span id="totalKamarCount">0</span> kamar
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="border-b border-[var(--input-border-color)]">
+                                    <th class="text-left py-3 px-4 text-[var(--text-color)]">ID</th>
+                                    <th class="text-left py-3 px-4 text-[var(--text-color)]">No. Kamar</th>
+                                    <th class="text-left py-3 px-4 text-[var(--text-color)]">Tipe Kamar</th>
+                                    <th class="text-left py-3 px-4 text-[var(--text-color)]">Kapasitas</th>
+                                    <th class="text-left py-3 px-4 text-[var(--text-color)]">Harga</th>
+                                    <th class="text-left py-3 px-4 text-[var(--text-color)]">Status</th>
+                                    <th class="text-left py-3 px-4 text-[var(--text-color)]">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="kamarTableBody">
+                                <tr>
+                                    <td colspan="7" class="text-center py-8 text-[var(--text-muted-color)]">Memuat data kamar...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal Tambah/Edit Kamar -->
+    <div id="kamarModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="dashboard-card max-w-md w-full mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="modalTitle" class="text-lg font-semibold text-[var(--primary-color)]">Tambah Kamar</h3>
+                <button id="closeModal" class="text-[var(--text-muted-color)] hover:text-[var(--primary-color)]">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <form id="kamarForm" class="space-y-4">
+                <input type="hidden" id="kamarId">
+                <div>
+                    <label class="block text-sm font-medium text-[var(--text-color)] mb-2">No. Kamar</label>
+                    <input type="text" id="noKamar" name="no_kamar" required class="form-input w-full" placeholder="Contoh: 101">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-[var(--text-color)] mb-2">Tipe Kamar</label>
+                    <select id="tipeKamar" name="tipe" required class="form-input w-full">
+                        <option value="">Pilih Tipe</option>
+                        <option value="Standard">Standard</option>
+                        <option value="Superior">Superior</option>
+                        <option value="Deluxe">Deluxe</option>
+                        <option value="Suite">Suite</option>
+                        <option value="Family">Family</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-[var(--text-color)] mb-2">Harga</label>
+                    <input type="number" id="hargaKamar" name="harga" required class="form-input w-full" placeholder="Contoh: 300000">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-[var(--text-color)] mb-2">Kapasitas Maksimal</label>
+                    <select id="kapasitasKamar" name="kapasitas_maks" required class="form-input w-full">
+                        <option value="">Pilih Kapasitas</option>
+                        <option value="2">2 Orang</option>
+                        <option value="3">3 Orang</option>
+                        <option value="4">4 Orang</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-[var(--text-color)] mb-2">Status</label>
+                    <select id="statusKamar" name="status" required class="form-input w-full">
+                        <option value="">Pilih Status</option>
+                        <option value="Tersedia">Tersedia</option>
+                        <option value="Maintenance">Maintenance</option>
+                        <option value="Tidak Tersedia">Tidak Tersedia</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-[var(--text-color)] mb-2">Deskripsi</label>
+                    <textarea id="deskripsiKamar" name="deskripsi_kamar" class="form-input w-full h-20" placeholder="Deskripsi kamar..."></textarea>
+                </div>
+                <div class="flex gap-3 pt-4">
+                    <button type="submit" class="btn-primary flex-1 flex items-center justify-center rounded-lg h-12 px-4 text-sm font-semibold transition-colors">
+                        Simpan
+                    </button>
+                    <button type="button" id="cancelModal" class="btn-secondary flex-1 flex items-center justify-center rounded-lg h-12 px-4 text-sm font-semibold transition-colors">
+                        Batal
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>    <script src="/js/shared/auth.js"></script>
+    <script src="/js/shared/utils.js"></script>
+    <script src="/js/admin/crud-kamar.js"></script>
+    
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Logout functionality
+        document.getElementById('headerLogoutButton').addEventListener('click', function() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            window.location.href = '/login.html?role=admin';
+        });
+    </script>
+</body>
+</html>

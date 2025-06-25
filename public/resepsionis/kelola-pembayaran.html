@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelola Pembayaran - The Grand Royale Hotel</title>
+    
+    <!-- Favicon -->
+    <link href="data:image/svg+xml,%3Csvg width='48' height='48' viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z' fill='%23CF7010'/%3E%3C/svg%3E" rel="icon" type="image/svg+xml"/>
+      <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+      <!-- Styling Konsisten Resepsionis -->
+    <link rel="stylesheet" href="../css/resepsionis-common.css">
+    <link rel="stylesheet" href="../css/resepsionis-enhanced.css">
+    
+    <style type="text/tailwindcss">
+      :root {
+        --primary-color: #cf7010; 
+        --secondary-color: #393028;
+        --background-color: #181411;
+        --card-bg-color: #24211e; 
+        --text-color: #ffffff; 
+        --text-muted-color: #b9ab9d; 
+        --input-bg-color: #2c2825;
+        --input-border-color: #4d4237;
+        --input-focus-border-color: var(--primary-color);
+        --table-header-bg: #2a2724;
+        --table-row-hover-bg: #2f2c29;
+      }
+      body {
+        font-family: "Noto Serif", "Noto Sans", sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        margin: 0;
+      }
+      .header-standard {
+        background-color: var(--background-color);
+        border-bottom: 1px solid var(--secondary-color);
+        color: var(--text-color);
+      }
+      .header-standard .header-brand-icon-color svg { color: var(--primary-color); }
+      .header-standard .header-text-color { color: var(--text-color); }
+      .header-standard .header-nav-link-color { color: var(--text-muted-color); }
+      .header-standard .header-nav-link-color:hover { color: var(--primary-color); }
+      .header-standard .header-nav-link-color.active { color: var(--primary-color); font-weight: 600; }
+
+      .main-content-area { background-color: #1a1816; }
+      .btn-primary { background-color: var(--primary-color); color: var(--text-color); }
+      .btn-primary:hover { background-color: #e08220; }
+      .btn-secondary { background-color: var(--secondary-color); color: var(--text-color); }
+      .btn-secondary:hover { background-color: #4d4237; }
+      
+      .form-input, .form-select, .form-textarea {
+        background-color: var(--input-bg-color);
+        border-color: var(--input-border-color);
+        color: var(--text-color);
+        border-radius: 0.375rem;
+        padding: 0.5rem 0.75rem;
+        border-width: 1px;
+        width: 100%;
+      }
+      .form-input:focus, .form-select:focus, .form-textarea:focus {
+        outline: none;
+        border-color: var(--input-focus-border-color);
+        box-shadow: 0 0 0 3px rgba(207, 112, 16, 0.1);
+      }
+      
+      .card {
+        background-color: var(--card-bg-color);
+        border: 1px solid var(--input-border-color);
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+      }
+      
+      .table-container {
+        background-color: var(--card-bg-color);
+        border: 1px solid var(--input-border-color);
+        border-radius: 0.5rem;
+        overflow: hidden;
+      }
+      
+      .table-header {
+        background-color: var(--table-header-bg);
+        border-bottom: 1px solid var(--input-border-color);      }
+      
+      .table-row:hover {
+        background-color: var(--table-row-hover-bg);
+      }
+      
+      .modal {
+        background-color: rgba(0, 0, 0, 0.75);
+      }
+      
+      .modal-content {
+        background-color: var(--card-bg-color);
+        border: 1px solid var(--input-border-color);
+      }</style>
+</head>
+<body class="dark">
+    <div class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden">
+        <div class="layout-container flex h-full grow flex-col">
+            <!-- Header Standar untuk Resepsionis -->
+            <header class="header-standard flex items-center justify-between whitespace-nowrap px-6 md:px-10 py-4 shadow-md">
+                <div class="flex items-center gap-3">
+                    <div class="size-8 header-brand-icon-color">
+                        <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M8.25 6h7.5m-7.5 3h7.5m-7.5 3h7.5m-7.5 3h7.5M3 12h18" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </div>
+                    <a href="/resepsionis/dashboard.html" class="text-xl font-bold leading-tight tracking-[-0.015em] header-text-color">The Grand Royale - Resepsionis</a>
+                </div>
+                <nav class="hidden md:flex flex-1 justify-center items-center gap-6 lg:gap-8">
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/resepsionis/dashboard.html">Dashboard</a>
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/resepsionis/manajemen-reservasi.html">Kelola Reservasi</a>
+                    <a class="header-nav-link-color active text-sm font-medium leading-normal transition-colors" href="/resepsionis/kelola-pembayaran.html">Kelola Pembayaran</a>
+                    <a class="header-nav-link-color text-sm font-medium leading-normal transition-colors" href="/resepsionis/manajemen-kamar.html">Manajemen Kamar</a>
+                </nav>
+                <div class="flex items-center gap-4">
+                    <!-- Tombol untuk pengguna yang BELUM login -->
+                    <div id="guestSpecificLinks" class="flex items-center gap-3" style="display: none;">
+                        <a href="/login.html?role=resepsionis">
+                            <button class="btn-secondary flex items-center justify-center rounded-lg h-10 px-4 text-sm font-semibold transition-colors min-w-[84px] hover:bg-opacity-80">Login</button>
+                        </a>
+                    </div>
+                    <!-- Tampilan untuk pengguna yang SUDAH login -->
+                    <div id="userSpecificLinks" class="flex items-center gap-3" style="display: none;">
+                        <div id="userAvatar" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 shadow-sm border-2 border-[var(--primary-color)] flex items-center justify-center text-white font-bold"></div>
+                        <button id="headerLogoutButton" class="btn-secondary flex items-center justify-center rounded-lg h-10 px-4 text-sm font-semibold transition-colors min-w-[84px] hover:bg-opacity-80">Logout</button>
+                    </div>
+                </div>
+                <!-- Hamburger menu untuk mobile -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-[var(--text-muted-color)] hover:text-[var(--primary-color)]">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </header>
+            
+            <!-- Mobile Menu (hidden by default) -->
+            <div id="mobile-menu" class="md:hidden hidden bg-[var(--card-bg-color)] border-b border-[var(--secondary-color)] py-2">
+                <a class="block px-4 py-2 text-sm header-nav-link-color" href="/resepsionis/dashboard.html">Dashboard</a>
+                <a class="block px-4 py-2 text-sm header-nav-link-color" href="/resepsionis/manajemen-reservasi.html">Kelola Reservasi</a>
+                <a class="block px-4 py-2 text-sm header-nav-link-color active" href="/resepsionis/kelola-pembayaran.html">Kelola Pembayaran</a>
+                <a class="block px-4 py-2 text-sm header-nav-link-color" href="/resepsionis/manajemen-kamar.html">Manajemen Kamar</a>
+            </div>
+
+            <!-- Main Content -->
+            <main class="main-content-area px-6 md:px-10 lg:px-16 flex flex-1 justify-center py-8 md:py-12">
+                <div class="layout-content-container flex flex-col max-w-7xl w-full flex-1 gap-8">                    <!-- Page Header -->
+                    <div class="mb-6 md:mb-8">
+                        <h1 class="text-[var(--primary-color)] tracking-tight text-3xl md:text-4xl font-bold">Kelola Pembayaran</h1>
+                        <p class="text-[var(--text-muted-color)] text-base md:text-lg mt-1">Kelola dan verifikasi status pembayaran reservasi hotel</p>
+                    </div>
+
+                    <!-- Filters -->
+                    <div class="card p-6 mb-6">
+                        <div class="flex flex-wrap gap-4 items-end">
+                            <div class="flex-1 min-w-64">
+                                <label for="search-query" class="block text-sm font-medium text-[var(--text-color)] mb-2">
+                                    Cari Pembayaran
+                                </label>
+                                <input type="text" id="search-query" class="form-input" placeholder="Cari berdasarkan nama tamu, ID reservasi, atau nomor kamar...">
+                            </div>
+                            <div class="min-w-48">
+                                <label for="filter-status" class="block text-sm font-medium text-[var(--text-color)] mb-2">
+                                    Status Pembayaran
+                                </label>
+                                <select id="filter-status" class="form-select">
+                                    <option value="">Semua Status</option>
+                                    <option value="Lunas">Lunas</option>
+                                    <option value="Belum Lunas">Belum Lunas</option>
+                                    <option value="Menunggu Verifikasi">Menunggu Verifikasi</option>
+                                </select>
+                            </div>
+                            <div class="min-w-48">
+                                <label for="filter-method" class="block text-sm font-medium text-[var(--text-color)] mb-2">
+                                    Metode Pembayaran
+                                </label>
+                                <select id="filter-method" class="form-select">
+                                    <option value="">Semua Metode</option>
+                                    <option value="Tunai">Tunai</option>
+                                    <option value="Transfer Bank">Transfer Bank</option>
+                                    <option value="E-Wallet">E-Wallet</option>
+                                    <option value="Kartu Kredit">Kartu Kredit</option>
+                                    <option value="Kartu Debit">Kartu Debit</option>
+                                </select>
+                            </div>
+                            <div class="flex gap-2">
+                                <button id="apply-filter-btn" class="btn-primary px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
+                                    Filter
+                                </button>
+                                <button id="reset-filter-btn" class="btn-secondary px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
+                                    Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Loading State -->
+                    <div id="loading-state" class="card p-8">
+                        <div class="flex items-center justify-center">
+                            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--primary-color)]"></div>
+                            <span class="ml-3 text-[var(--text-muted-color)]">Memuat data pembayaran...</span>
+                        </div>
+                    </div>
+
+                    <!-- Error State -->
+                    <div id="error-state" class="hidden card p-6 border-red-500 bg-red-900/10">
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 text-red-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <p class="text-red-400" id="error-message">Terjadi kesalahan saat memuat data pembayaran.</p>
+                        </div>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div id="empty-state" class="hidden card p-8">
+                        <div class="text-center">
+                            <svg class="w-16 h-16 text-[var(--text-muted-color)] mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v2a2 2 0 002 2z"></path>
+                            </svg>
+                            <h3 class="text-lg font-medium text-[var(--text-color)] mb-2">Tidak ada data pembayaran</h3>
+                            <p class="text-[var(--text-muted-color)]">Belum ada pembayaran yang ditemukan.</p>
+                        </div>
+                    </div>                    <!-- Payments Table -->
+                    <div id="payments-table" class="table-container">
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="table-header">
+                                    <tr>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-[var(--text-muted-color)] uppercase tracking-wider">ID</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-[var(--text-muted-color)] uppercase tracking-wider">Tamu & Reservasi</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-[var(--text-muted-color)] uppercase tracking-wider">Kamar</th>
+                                        <th class="px-4 py-3 text-center text-xs font-medium text-[var(--text-muted-color)] uppercase tracking-wider">Total Biaya</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-[var(--text-muted-color)] uppercase tracking-wider">Metode</th>
+                                        <th class="px-4 py-3 text-center text-xs font-medium text-[var(--text-muted-color)] uppercase tracking-wider">Status</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-[var(--text-muted-color)] uppercase tracking-wider">Tanggal</th>
+                                        <th class="px-4 py-3 text-center text-xs font-medium text-[var(--text-muted-color)] uppercase tracking-wider">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="payments-tbody" class="divide-y divide-[var(--input-border-color)]">
+                                    <!-- Data will be inserted here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div id="pagination" class="mt-6 flex items-center justify-between">
+                        <div class="text-sm text-[var(--text-muted-color)]">
+                            Menampilkan <span id="showing-start">0</span> - <span id="showing-end">0</span> dari <span id="total-items">0</span> pembayaran
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button id="prev-page" class="px-3 py-2 border border-[var(--input-border-color)] rounded-md text-sm hover:bg-[var(--table-row-hover-bg)] disabled:opacity-50 text-[var(--text-color)]" disabled>
+                                Sebelumnya
+                            </button>
+                            <div id="page-numbers" class="flex space-x-1">
+                                <!-- Page numbers will be inserted here -->
+                            </div>
+                            <button id="next-page" class="px-3 py-2 border border-[var(--input-border-color)] rounded-md text-sm hover:bg-[var(--table-row-hover-bg)] disabled:opacity-50 text-[var(--text-color)]" disabled>
+                                Selanjutnya
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>    <!-- Detail Modal -->
+    <div id="detail-modal" class="fixed inset-0 modal hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="modal-content rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-[var(--text-color)]">Detail Pembayaran</h3>
+                        <button id="close-detail-modal" class="text-[var(--text-muted-color)] hover:text-[var(--text-color)]">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="detail-content">
+                        <!-- Detail content will be inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update Status Modal -->
+    <div id="status-modal" class="fixed inset-0 modal hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="modal-content rounded-lg max-w-md w-full">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-[var(--text-color)]">Ubah Status Pembayaran</h3>
+                        <button id="close-status-modal" class="text-[var(--text-muted-color)] hover:text-[var(--text-color)]">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <form id="status-form">
+                        <input type="hidden" id="status-payment-id">
+                        <div class="mb-4">
+                            <label for="new-status" class="block text-sm font-medium text-[var(--text-color)] mb-2">
+                                Status Pembayaran Baru
+                            </label>
+                            <select id="new-status" class="form-select" required>
+                                <option value="">Pilih Status</option>
+                                <option value="Lunas">Lunas</option>
+                                <option value="Belum Lunas">Belum Lunas</option>
+                                <option value="Menunggu Verifikasi">Menunggu Verifikasi</option>
+                            </select>
+                        </div>
+                        <div class="flex justify-end space-x-3">
+                            <button type="button" id="cancel-status-update" class="btn-secondary px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
+                                Batal
+                            </button>
+                            <button type="submit" class="btn-primary px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
+                                Simpan
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>    <script src="/js/shared/auth.js?v=20250621004"></script>
+    <script src="/js/resepsionis/kelola-pembayaran.js?v=20250621004"></script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom CSS Variables */
+:root {
+  --primary-color: #cf7010; 
+  --secondary-color: #393028;
+  --background-color: #181411;
+  --card-bg-color: #24211e; 
+  --text-color: #ffffff; 
+  --text-muted-color: #b9ab9d; 
+  --input-bg-color: #2c2825;
+  --input-border-color: #4d4237;
+  --input-focus-border-color: var(--primary-color);
+  --table-header-bg: #2a2724;
+  --table-row-hover-bg: #2f2c29;
+}
+
+/* Base Styles */
+body {
+  font-family: "Noto Serif", "Noto Sans", sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  margin: 0;
+}
+
+/* Header Styles */
+.header-standard {
+  background-color: var(--background-color);
+  border-bottom: 1px solid var(--secondary-color);
+  color: var(--text-color);
+}
+
+.header-standard .header-brand-icon-color svg { 
+  color: var(--primary-color); 
+}
+
+.header-standard .header-text-color { 
+  color: var(--text-color); 
+}
+
+.header-standard .header-nav-link-color { 
+  color: var(--text-muted-color); 
+}
+
+.header-standard .header-nav-link-color:hover { 
+  color: var(--primary-color); 
+}
+
+.header-standard .header-nav-link-color.active { 
+  color: var(--primary-color); 
+  font-weight: 600; 
+}
+
+/* Main Content */
+.main-content-area { 
+  background-color: #1a1816; 
+}
+
+/* Button Styles */
+.btn-primary { 
+  background-color: var(--primary-color); 
+  color: var(--text-color); 
+}
+
+.btn-primary:hover { 
+  background-color: #e08220; 
+}
+
+.btn-secondary { 
+  background-color: var(--secondary-color); 
+  color: var(--text-color); 
+}
+
+.btn-secondary:hover { 
+  background-color: #4d4237; 
+}
+
+.btn-outline-primary {
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  background-color: transparent;
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+}
+
+/* Form Elements */
+.form-input, .form-select {
+  background-color: var(--input-bg-color);
+  border: 1px solid var(--input-border-color);
+  color: var(--text-color);
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.form-input:focus, .form-select:focus {
+  outline: none;
+  border-color: var(--input-focus-border-color);
+  box-shadow: 0 0 0 3px rgba(207, 112, 16, 0.1);
+}
+
+.form-input::placeholder {
+  color: var(--text-muted-color);
+}
+
+/* Table Styles */
+.table {
+  background-color: var(--card-bg-color);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.table thead {
+  background-color: var(--table-header-bg);
+}
+
+.table tbody tr:hover {
+  background-color: var(--table-row-hover-bg);
+}
+
+/* Status Badges */
+.status-badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.status-confirmed { 
+  background-color: #10B981; 
+  color: #F0FDFA; 
+}
+
+.status-pending { 
+  background-color: #F59E0B; 
+  color: #FFFBEB; 
+}
+
+.status-cancelled { 
+  background-color: #EF4444; 
+  color: #FEF2F2; 
+}
+
+.status-checked-in { 
+  background-color: #3B82F6; 
+  color: #EFF6FF; 
+}
+
+.status-completed { 
+  background-color: #6366F1; 
+  color: #EEF2FF; 
+}
+
+.status-no-show { 
+  background-color: #6B7280; 
+  color: #F3F4F6; 
+}
+
+/* Action Button Hover Effects */
+.transition-all {
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal Styles */
+.modal-overlay {
+  backdrop-filter: blur(4px);
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  border: 3px solid var(--input-border-color);
+  border-top: 3px solid var(--primary-color);
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .table-container {
+    overflow-x: auto;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .action-buttons button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-only {
+    display: block !important;
+  }
+}

@@ -1,0 +1,260 @@
+/* Button Enhancements for Room Management */
+
+/* Tombol aksi dengan efek hover yang lebih menarik */
+.action-button {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.action-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.action-button:hover::before {
+    left: 100%;
+}
+
+.action-button:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);
+}
+
+.action-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Warna khusus untuk setiap jenis tombol */
+.btn-detail {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    border: 1px solid #2563eb;
+}
+
+.btn-detail:hover {
+    background: linear-gradient(135deg, #1d4ed8, #1e40af);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+}
+
+.btn-checkin {
+    background: linear-gradient(135deg, #10b981, #059669);
+    border: 1px solid #047857;
+}
+
+.btn-checkin:hover {
+    background: linear-gradient(135deg, #059669, #047857);
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+}
+
+.btn-checkout {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    border: 1px solid #b45309;
+}
+
+.btn-checkout:hover {
+    background: linear-gradient(135deg, #d97706, #b45309);
+    box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+}
+
+.btn-status {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    border: 1px solid #6d28d9;
+}
+
+.btn-status:hover {
+    background: linear-gradient(135deg, #7c3aed, #6d28d9);
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+}
+
+.btn-cleaning {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    border: 1px solid #b45309;
+}
+
+.btn-cleaning:hover {
+    background: linear-gradient(135deg, #d97706, #b45309);
+    box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+}
+
+.btn-maintenance {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    border: 1px solid #4338ca;
+}
+
+.btn-maintenance:hover {
+    background: linear-gradient(135deg, #4f46e5, #4338ca);
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+}
+
+.btn-available {
+    background: linear-gradient(135deg, #14b8a6, #0d9488);
+    border: 1px solid #0f766e;
+}
+
+.btn-available:hover {
+    background: linear-gradient(135deg, #0d9488, #0f766e);
+    box-shadow: 0 8px 25px rgba(20, 184, 166, 0.3);
+}
+
+/* Quick action buttons */
+.btn-refresh {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
+.btn-export {
+    background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.btn-stats {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+}
+
+.btn-emergency {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    border: 1px solid #b91c1c;
+}
+
+.btn-emergency:hover {
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
+}
+
+/* Bulk action buttons */
+.bulk-action-btn {
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.bulk-action-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.bulk-action-btn:not(:disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Loading animation untuk tombol refresh */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+/* Pulse animation untuk tombol darurat */
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+.btn-emergency.pulse {
+    animation: pulse 2s infinite;
+}
+
+/* Notification badges untuk tombol aksi */
+.action-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #ef4444;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    border: 2px solid white;
+}
+
+/* Action button grouping with separators */
+.action-group {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.action-group::after {
+    content: '';
+    width: 1px;
+    height: 16px;
+    background: var(--input-border-color);
+    margin: 0 0.25rem;
+}
+
+.action-group:last-child::after {
+    display: none;
+}
+
+/* Priority-based ordering */
+.action-button[data-priority="1"] {
+    order: 1;
+}
+
+.action-button[data-priority="2"] {
+    order: 2;
+}
+
+.action-button[data-priority="3"] {
+    order: 3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .action-button {
+        font-size: 0.75rem;
+        padding: 0.375rem 0.75rem;
+    }
+    
+    .action-button svg {
+        width: 0.875rem;
+        height: 0.875rem;
+    }
+}
+
+/* Custom scrollbar untuk action container */
+.action-container::-webkit-scrollbar {
+    height: 4px;
+}
+
+.action-container::-webkit-scrollbar-track {
+    background: var(--input-border-color);
+    border-radius: 2px;
+}
+
+.action-container::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 2px;
+}
+
+.action-container::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-color);
+}
+
+/* Enhanced table row hover effect */
+.table tbody tr:hover .action-button {
+    transform: scale(1.05);
+}
+
+/* Icon animations */
+.action-button svg {
+    transition: transform 0.2s ease;
+}
+
+.action-button:hover svg {
+    transform: scale(1.1);
+}
