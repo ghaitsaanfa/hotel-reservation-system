@@ -41,13 +41,13 @@ router.post('/login', async (req, res) => {
                 let idField = '';
                 
                 if (tableName === 'admin') {
-                    selectQuery = 'SELECT id_admin, nama, username, password, created_at FROM admin WHERE username = $1';
+                    selectQuery = 'SELECT id_admin, nama, username, password FROM admin WHERE username = $1';
                     idField = 'id_admin';
                 } else if (tableName === 'resepsionis') {
-                    selectQuery = 'SELECT id_resepsionis, nama, username, email, password, no_hp, alamat, created_at FROM resepsionis WHERE username = $1';
+                    selectQuery = 'SELECT id_resepsionis, nama, username, email, password, no_hp FROM resepsionis WHERE username = $1';
                     idField = 'id_resepsionis';
                 } else if (tableName === 'tamu') {
-                    selectQuery = 'SELECT id_tamu, nama, username, email, password, no_hp, alamat, created_at FROM tamu WHERE username = $1';
+                    selectQuery = 'SELECT id_tamu, nama, username, email, password, no_hp, alamat FROM tamu WHERE username = $1';
                     idField = 'id_tamu';
                 }
 
