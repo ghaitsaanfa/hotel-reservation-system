@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log('🚀 Login page loaded');
     
-    // Show CORRECT test credentials
-    console.log('🔑 VERIFIED test credentials:');
+    // Show available test credentials
+    console.log('🔑 Available test credentials:');
     console.log('  Admin: username="admin", password="admin123"');
+    console.log('  Resepsionis: username="johndoe", password="password"');  
     console.log('  Tamu: username="ahmadw", password="password"');
-    console.log('  Resepsionis: username="johndoe", password="password"');
     
     // Debug: List all elements in the page
     console.log('📋 All form elements found:', {
@@ -72,22 +72,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const password = passwordInput.value;
         const role = roleSelect ? roleSelect.value : '';
 
-        console.log('🔐 Login attempt with:', { 
-            username: username, 
-            role: role, 
-            passwordLength: password.length,
-            usernameType: typeof username,
-            passwordType: typeof password
-        });
+        console.log('🔐 Login attempt with:', { username, role, passwordLength: password.length });
 
         if (!username || !password) {
             showError('Silakan isi username dan password');
-            return;
-        }
-
-        // Validate username format
-        if (typeof username !== 'string' || username.length < 1) {
-            showError('Username tidak valid');
             return;
         }
 
@@ -96,24 +84,17 @@ document.addEventListener('DOMContentLoaded', () => {
             hideError();
             
             const requestBody = {
-                username: String(username).trim(),
-                password: String(password)
+                emailOrUsername: username,
+                password: password
             };
 
             // Only add role if it's selected and not empty
             if (role && role.trim() !== '') {
-                requestBody.role = String(role).trim();
+                requestBody.role = role;
             }
 
             console.log('📤 Sending request to:', '/api/auth/login');
-            console.log('📦 Request body:', { 
-                username: requestBody.username, 
-                password: '[HIDDEN]',
-                role: requestBody.role || 'not specified',
-                bodyType: typeof requestBody,
-                usernameLength: requestBody.username.length
-            });
-            console.log('🔍 Full request body (stringified):', JSON.stringify(requestBody));
+            console.log('📦 Request body:', { ...requestBody, password: '[HIDDEN]' });
 
             const response = await fetch('/api/auth/login', {
                 method: 'POST',
@@ -125,6 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             console.log('📡 Response status:', response.status);
+            console.log('📡 Response headers:', Object.fromEntries(response.headers.entries()));
 
             let result;
             try {
