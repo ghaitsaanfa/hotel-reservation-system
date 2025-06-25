@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3000;
 // CORS configuration for Vercel deployment
 const corsOptions = {
     origin: process.env.NODE_ENV === 'production' 
-        ? ['https://your-domain.vercel.app'] // Replace with your actual domain
+        ? ['https://hotel-reservation-system-khaki.vercel.app'] // Updated with actual domain
         : ['http://localhost:3000', 'http://127.0.0.1:3000'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
