@@ -62,22 +62,20 @@ app.get('/api/test', (req, res) => {
     });
 });
 
-// Debug route untuk test database connection
-app.get('/api/debug/database', async (req, res) => {
+// Simple debug route to test pool import
+app.get('/api/debug/pool', async (req, res) => {
     try {
-        const { pool } = require('./config/database');
-        
-        // Test simple query
-        const result = await pool.query('SELECT COUNT(*) as count FROM kamar');
+        const databaseConfig = require('./config/database');
         
         res.json({
             success: true,
-            message: 'Database connection test successful',
-            kamarCount: result.rows[0].count,
+            message: 'Database config loaded successfully',
+            hasPool: typeof databaseConfig.pool !== 'undefined',
+            hasQuery: typeof databaseConfig.pool.query !== 'undefined',
+            exports: Object.keys(databaseConfig),
             timestamp: new Date().toISOString()
         });
     } catch (error) {
-        console.error('Database test error:', error);
         res.status(500).json({
             success: false,
             error: error.message,
