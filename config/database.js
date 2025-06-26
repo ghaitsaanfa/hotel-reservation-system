@@ -14,7 +14,7 @@ const pool = {
             // Convert PostgreSQL query to Supabase query
             console.log('🔄 Converting SQL query:', query, params);
             
-            // Handle INSERT queries for kamar (simplified version if auto-increment is set up)
+            // Handle INSERT queries for kamar
             if (query.includes('INSERT INTO kamar')) {
                 const [no_kamar, tipe, harga, status, deskripsi_kamar, kapasitas_maks] = params;
                 
@@ -32,11 +32,29 @@ const pool = {
                     throw error;
                 }
                 
-                // Let Supabase handle ID generation automatically
+                // Get the highest existing ID to generate next ID
+                const { data: maxIdData, error: maxIdError } = await supabase
+                    .from('kamar')
+                    .select('id_kamar')
+                    .order('id_kamar', { ascending: false })
+                    .limit(1);
+                
+                if (maxIdError) {
+                    console.warn('Warning: Could not get max ID, using auto-generation:', maxIdError);
+                }
+                
+                // Calculate next ID
+                let nextId = 1; // Default starting ID
+                if (maxIdData && maxIdData.length > 0) {
+                    nextId = maxIdData[0].id_kamar + 1;
+                }
+                
+                console.log('Generating new kamar with ID:', nextId);
+                
                 const { data, error } = await supabase
                     .from('kamar')
                     .insert([{
-                        // Don't specify id_kamar, let auto-increment handle it
+                        id_kamar: nextId, // Explicitly set the ID
                         no_kamar,
                         tipe,
                         harga,
@@ -46,7 +64,41 @@ const pool = {
                     }])
                     .select();
                 
-                if (error) throw error;
+                if (error) {
+                    // If there's a duplicate ID error, try with a higher ID
+                    if (error.code === '23505' && error.message.includes('id_kamar')) {
+                        console.warn('ID collision detected, retrying with higher ID');
+                        
+                        // Get current max ID again and add a buffer
+                        const { data: retryMaxIdData, error: retryMaxIdError } = await supabase
+                            .from('kamar')
+                            .select('id_kamar')
+                            .order('id_kamar', { ascending: false })
+                            .limit(1);
+                        
+                        if (!retryMaxIdError && retryMaxIdData && retryMaxIdData.length > 0) {
+                            const retryNextId = retryMaxIdData[0].id_kamar + 1;
+                            
+                            const { data: retryData, error: retryError } = await supabase
+                                .from('kamar')
+                                .insert([{
+                                    id_kamar: retryNextId,
+                                    no_kamar,
+                                    tipe,
+                                    harga,
+                                    status,
+                                    deskripsi_kamar,
+                                    kapasitas_maks
+                                }])
+                                .select();
+                            
+                            if (retryError) throw retryError;
+                            return { rows: retryData || [] };
+                        }
+                    }
+                    throw error;
+                }
+                
                 return { rows: data || [] };
             }
             
@@ -384,21 +436,6 @@ const pool = {
                 const { data, error } = await supabase
                     .from('resepsionis')
                     .select('*')
-                    .or(`email.eq.${params[0]},username.eq.${params[0]}`);
-                
-                if (error) throw error;
-                return { rows: data || [] };
-            }
-            
-            throw new Error('Query not recognized or not supported: ' + query);
-        } catch (error) {
-            console.error('Error executing query:', error);
-            throw error;
-        }
-    }
-};
-
-module.exports = { supabase, pool };                    .select('*')
                     .or(`email.eq.${params[0]},username.eq.${params[0]}`);
                 
                 if (error) throw error;
