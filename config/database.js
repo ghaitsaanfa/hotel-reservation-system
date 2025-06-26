@@ -14,6 +14,163 @@ const pool = {
             // Convert PostgreSQL query to Supabase query
             console.log('🔄 Converting SQL query:', query, params);
             
+            // Handle INSERT queries for kamar
+            if (query.includes('INSERT INTO kamar')) {
+                const [no_kamar, tipe, harga, status, deskripsi_kamar, kapasitas_maks] = params;
+                
+                // Check for duplicate room number first
+                const { data: existing, error: checkError } = await supabase
+                    .from('kamar')
+                    .select('id_kamar')
+                    .eq('no_kamar', no_kamar);
+                
+                if (checkError) throw checkError;
+                
+                if (existing && existing.length > 0) {
+                    const error = new Error('Room number already exists');
+                    error.code = '23505'; // PostgreSQL unique violation code
+                    throw error;
+                }
+                
+                const { data, error } = await supabase
+                    .from('kamar')
+                    .insert([{
+                        no_kamar,
+                        tipe,
+                        harga,
+                        status,
+                        deskripsi_kamar,
+                        kapasitas_maks
+                    }])
+                    .select();
+                
+                if (error) throw error;
+                return { rows: data || [] };
+            }
+            
+            // Handle UPDATE queries for kamar
+            if (query.includes('UPDATE kamar') && query.includes('WHERE id_kamar = $')) {
+                const id = params[params.length - 1]; // ID is always the last parameter
+                
+                if (query.includes('SET no_kamar = $1, tipe = $2')) {
+                    // Full update
+                    const [no_kamar, tipe, harga, status, deskripsi_kamar, kapasitas_maks] = params;
+                    
+                    // Check for duplicate room number (excluding current room)
+                    const { data: existing, error: checkError } = await supabase
+                        .from('kamar')
+                        .select('id_kamar')
+                        .eq('no_kamar', no_kamar)
+                        .neq('id_kamar', id);
+                    
+                    if (checkError) throw checkError;
+                    
+                    if (existing && existing.length > 0) {
+                        const error = new Error('Room number already exists');
+                        error.code = '23505';
+                        throw error;
+                    }
+                    
+                    const { data, error } = await supabase
+                        .from('kamar')
+                        .update({
+                            no_kamar,
+                            tipe,
+                            harga,
+                            status,
+                            deskripsi_kamar,
+                            kapasitas_maks
+                        })
+                        .eq('id_kamar', id)
+                        .select();
+                    
+                    if (error) throw error;
+                    return { rows: data || [] };
+                }
+                
+                if (query.includes('SET status = $1')) {
+                    // Status update only
+                    const [status] = params;
+                    
+                    const { data, error } = await supabase
+                        .from('kamar')
+                        .update({ status })
+                        .eq('id_kamar', id)
+                        .select();
+                    
+                    if (error) throw error;
+                    return { rows: data || [] };
+                }
+            }
+            
+            // Handle DELETE queries for kamar
+            if (query.includes('DELETE FROM kamar WHERE id_kamar = $1')) {
+                const [id] = params;
+                
+                const { data, error } = await supabase
+                    .from('kamar')
+                    .delete()
+                    .eq('id_kamar', id)
+                    .select();
+                
+                if (error) throw error;
+                return { rows: data || [] };
+            }
+            
+            // Handle SELECT by ID queries for kamar
+            if (query.includes('SELECT') && query.includes('FROM kamar WHERE id_kamar = $1')) {
+                const [id] = params;
+                
+                const { data, error } = await supabase
+                    .from('kamar')
+                    .select('*')
+                    .eq('id_kamar', id);
+                
+                if (error) throw error;
+                return { rows: data || [] };
+            }
+            
+            // Handle duplicate check queries
+            if (query.includes('SELECT id_kamar FROM kamar WHERE no_kamar = $1')) {
+                const [no_kamar] = params;
+                
+                const { data, error } = await supabase
+                    .from('kamar')
+                    .select('id_kamar')
+                    .eq('no_kamar', no_kamar);
+                
+                if (error) throw error;
+                return { rows: data || [] };
+            }
+            
+            // Handle duplicate check with exclusion
+            if (query.includes('SELECT id_kamar FROM kamar WHERE no_kamar = $1 AND id_kamar != $2')) {
+                const [no_kamar, id] = params;
+                
+                const { data, error } = await supabase
+                    .from('kamar')
+                    .select('id_kamar')
+                    .eq('no_kamar', no_kamar)
+                    .neq('id_kamar', id);
+                
+                if (error) throw error;
+                return { rows: data || [] };
+            }
+            
+            // Handle active reservations check for delete
+            if (query.includes('SELECT id_reservasi FROM reservasi WHERE id_kamar = $1')) {
+                const [id] = params;
+                
+                const { data, error } = await supabase
+                    .from('reservasi')
+                    .select('id_reservasi')
+                    .eq('id_kamar', id)
+                    .in('status_reservasi', ['Dikonfirmasi', 'Check-In', 'Menunggu Konfirmasi']);
+                
+                if (error) throw error;
+                return { rows: data || [] };
+            }
+            
             // Handle COUNT queries for dashboard stats
             if (query.includes('COUNT(*)') && query.includes('FROM kamar')) {
                 if (query.includes("WHERE status = 'Tersedia'")) {

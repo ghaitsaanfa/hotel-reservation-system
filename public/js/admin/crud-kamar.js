@@ -323,13 +323,29 @@ async function handleSubmitKamar(e) {
     e.preventDefault();
     
     const formData = {
-        no_kamar: document.getElementById('noKamar').value,
+        no_kamar: document.getElementById('noKamar').value.trim(),
         tipe: document.getElementById('tipeKamar').value,
         harga: parseFloat(document.getElementById('hargaKamar').value),
-        kapasitas_maks: document.getElementById('kapasitasKamar').value,
+        kapasitas_maks: parseInt(document.getElementById('kapasitasKamar').value),
         status: document.getElementById('statusKamar').value,
-        deskripsi_kamar: document.getElementById('deskripsiKamar').value
+        deskripsi_kamar: document.getElementById('deskripsiKamar').value.trim()
     };
+
+    // Validate form data
+    if (!formData.no_kamar || !formData.tipe || !formData.harga || !formData.kapasitas_maks || !formData.status) {
+        showError('Semua field wajib diisi');
+        return;
+    }
+
+    if (isNaN(formData.harga) || formData.harga <= 0) {
+        showError('Harga harus berupa angka yang valid dan lebih dari 0');
+        return;
+    }
+
+    if (isNaN(formData.kapasitas_maks) || formData.kapasitas_maks <= 0) {
+        showError('Kapasitas harus berupa angka yang valid dan lebih dari 0');
+        return;
+    }
 
     const kamarId = document.getElementById('kamarId').value;
     const isEdit = kamarId !== '';
@@ -343,6 +359,8 @@ async function handleSubmitKamar(e) {
         const url = isEdit ? `/api/kamar/${kamarId}` : '/api/kamar';
         const method = isEdit ? 'PUT' : 'POST';
 
+        console.log(`${isEdit ? 'Updating' : 'Creating'} kamar:`, formData);
+
         const response = await fetch(url, {
             method: method,
             headers: {
@@ -352,13 +370,15 @@ async function handleSubmitKamar(e) {
             body: JSON.stringify(formData)
         });
 
+        const result = await response.json();
+        console.log('Server response:', result);
+
         if (!response.ok) {
             if (response.status === 401) {
                 handleAuthError();
                 return;
             }
-            const error = await response.json();
-            throw new Error(error.error || 'Gagal menyimpan data kamar');
+            throw new Error(result.error || result.message || 'Gagal menyimpan data kamar');
         }
 
         showSuccess(isEdit ? 'Kamar berhasil diupdate' : 'Kamar berhasil ditambahkan');
@@ -384,6 +404,8 @@ async function confirmDelete(id) {
             throw new Error('No authentication token found');
         }
         
+        console.log('Deleting kamar with ID:', id);
+        
         const response = await fetch(`/api/kamar/${id}`, {
             method: 'DELETE',
             headers: {
@@ -392,13 +414,15 @@ async function confirmDelete(id) {
             }
         });
 
+        const result = await response.json();
+        console.log('Delete response:', result);
+
         if (!response.ok) {
             if (response.status === 401) {
                 handleAuthError();
                 return;
             }
-            const error = await response.json();
-            throw new Error(error.error || 'Gagal menghapus kamar');
+            throw new Error(result.error || result.message || 'Gagal menghapus kamar');
         }
 
         showSuccess('Kamar berhasil dihapus');
@@ -442,12 +466,52 @@ function handleAuthError() {
 
 function showError(message) {
     console.error(message);
-    alert('Error: ' + message);
+    
+    // Create a more user-friendly error display
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+    errorDiv.innerHTML = `
+        <div class="flex items-center gap-2">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+            </svg>
+            <span>${message}</span>
+        </div>
+    `;
+    
+    document.body.appendChild(errorDiv);
+    
+    // Remove after 5 seconds
+    setTimeout(() => {
+        if (errorDiv.parentNode) {
+            errorDiv.parentNode.removeChild(errorDiv);
+        }
+    }, 5000);
 }
 
 function showSuccess(message) {
     console.log(message);
-    alert('Success: ' + message);
+    
+    // Create a more user-friendly success display
+    const successDiv = document.createElement('div');
+    successDiv.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+    successDiv.innerHTML = `
+        <div class="flex items-center gap-2">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+            </svg>
+            <span>${message}</span>
+        </div>
+    `;
+    
+    document.body.appendChild(successDiv);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        if (successDiv.parentNode) {
+            successDiv.parentNode.removeChild(successDiv);
+        }
+    }, 3000);
 }
 
 // Function to view kamar detail

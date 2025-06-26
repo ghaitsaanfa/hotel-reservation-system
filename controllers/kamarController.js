@@ -207,7 +207,7 @@ const updateKamar = async (req, res) => {
         // Check if room exists
         const existingResult = await pool.query('SELECT id_kamar FROM kamar WHERE id_kamar = $1', [id]);
 
-        if (existingResult.rows.length === 0) {
+        if (!existingResult.rows || existingResult.rows.length === 0) {
             return res.status(404).json({ error: 'Room not found' });
         }
 
@@ -217,7 +217,7 @@ const updateKamar = async (req, res) => {
             [no_kamar, id]
         );
 
-        if (duplicateResult.rows.length > 0) {
+        if (duplicateResult.rows && duplicateResult.rows.length > 0) {
             return res.status(400).json({ error: 'Room number already exists' });
         }
 
@@ -228,12 +228,21 @@ const updateKamar = async (req, res) => {
             RETURNING *
         `, [no_kamar, tipe, harga, status, deskripsi_kamar, kapasitas_maks, id]);
 
+        if (!result.rows || result.rows.length === 0) {
+            return res.status(404).json({ error: 'Room not found' });
+        }
+
         res.json({
             message: 'Room updated successfully',
             data: result.rows[0]
         });
     } catch (error) {
         console.error('Update room error:', error);
+        
+        if (error.code === '23505') {
+            return res.status(400).json({ error: 'Room number already exists' });
+        }
+        
         res.status(500).json({ error: 'Internal server error' });
     }
 };
@@ -251,13 +260,13 @@ const deleteKamar = async (req, res) => {
             AND status_reservasi IN ('Dikonfirmasi', 'Check-In', 'Menunggu Konfirmasi')
         `, [id]);
 
-        if (activeReservationsResult.rows.length > 0) {
+        if (activeReservationsResult.rows && activeReservationsResult.rows.length > 0) {
             return res.status(400).json({ error: 'Cannot delete room with active reservations' });
         }
 
         const result = await pool.query('DELETE FROM kamar WHERE id_kamar = $1 RETURNING *', [id]);
 
-        if (result.rows.length === 0) {
+        if (!result.rows || result.rows.length === 0) {
             return res.status(404).json({ error: 'Room not found' });
         }
 
