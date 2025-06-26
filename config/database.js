@@ -2,8 +2,8 @@ const { createClient } = require('@supabase/supabase-js');
 require('dotenv').config();
 
 // Fallback values for testing
-const supabaseUrl = process.env.SUPABASE_URL || 'https://dummy.supabase.co';
-const supabaseKey = process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNiZGVidHBoeG9kY3dvenp1eGR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU4MDYzNzYsImV4cCI6MjA1MTM4MjM3Nn0.dummy';
+const supabaseUrl = process.env.SUPABASE_URL || 'https://trfnpdqgnhgyeobfcmee.supabase.co';
+const supabaseKey = process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRyZm5wZHFnbmhneWVvYmZjbWVlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NTE1NzksImV4cCI6MjA2NjQyNzU3OX0.c7fLLESjSYF5nr4cDJh9J7t_08h9j3OyijgIP47FTEI';
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
