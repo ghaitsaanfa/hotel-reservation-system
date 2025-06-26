@@ -14,7 +14,7 @@ const pool = {
             // Convert PostgreSQL query to Supabase query
             console.log('🔄 Converting SQL query:', query, params);
             
-            // Handle INSERT queries for kamar
+            // Handle INSERT queries for kamar (simplified version if auto-increment is set up)
             if (query.includes('INSERT INTO kamar')) {
                 const [no_kamar, tipe, harga, status, deskripsi_kamar, kapasitas_maks] = params;
                 
@@ -32,9 +32,11 @@ const pool = {
                     throw error;
                 }
                 
+                // Let Supabase handle ID generation automatically
                 const { data, error } = await supabase
                     .from('kamar')
                     .insert([{
+                        // Don't specify id_kamar, let auto-increment handle it
                         no_kamar,
                         tipe,
                         harga,
@@ -382,6 +384,21 @@ const pool = {
                 const { data, error } = await supabase
                     .from('resepsionis')
                     .select('*')
+                    .or(`email.eq.${params[0]},username.eq.${params[0]}`);
+                
+                if (error) throw error;
+                return { rows: data || [] };
+            }
+            
+            throw new Error('Query not recognized or not supported: ' + query);
+        } catch (error) {
+            console.error('Error executing query:', error);
+            throw error;
+        }
+    }
+};
+
+module.exports = { supabase, pool };                    .select('*')
                     .or(`email.eq.${params[0]},username.eq.${params[0]}`);
                 
                 if (error) throw error;
