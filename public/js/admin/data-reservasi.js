@@ -205,13 +205,25 @@ async function loadTamu() {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             }
-        });        if (response.ok) {
+        });
+
+        if (response.ok) {
             const result = await response.json();
             allTamu = result.data || [];
             console.log('Loaded tamu:', allTamu.length, 'items');
+        } else {
+            console.error('Failed to load tamu:', response.status, response.statusText);
+            // Try without authentication as fallback
+            const fallbackResponse = await fetch('/api/tamu/all');
+            if (fallbackResponse.ok) {
+                const result = await fallbackResponse.json();
+                allTamu = result.data || [];
+                console.log('Loaded tamu (fallback):', allTamu.length, 'items');
+            }
         }
     } catch (error) {
         console.error('Error loading tamu:', error);
+        allTamu = []; // Set empty array as fallback
     }
 }
 
@@ -249,9 +261,20 @@ async function loadResepsionis() {
         if (response.ok) {
             const result = await response.json();
             allResepsionis = result.data || [];
+            console.log('Loaded resepsionis:', allResepsionis.length, 'items');
+        } else {
+            console.error('Failed to load resepsionis:', response.status, response.statusText);
+            // Try without authentication as fallback
+            const fallbackResponse = await fetch('/api/resepsionis');
+            if (fallbackResponse.ok) {
+                const result = await fallbackResponse.json();
+                allResepsionis = result.data || [];
+                console.log('Loaded resepsionis (fallback):', allResepsionis.length, 'items');
+            }
         }
     } catch (error) {
         console.error('Error loading resepsionis:', error);
+        allResepsionis = []; // Set empty array as fallback
     }
 }
 

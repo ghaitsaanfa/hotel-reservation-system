@@ -452,6 +452,72 @@ const pool = {
                 return { rows: data || [] };
             }
             
+            // Handle SELECT queries for tamu
+            if (query.includes('SELECT') && query.includes('FROM tamu')) {
+                // Get all tamu for dropdown
+                if (query.includes('ORDER BY nama')) {
+                    const { data, error } = await supabase
+                        .from('tamu')
+                        .select('id_tamu, nama, email, no_hp, username')
+                        .order('nama');
+                    
+                    if (error) throw error;
+                    return { rows: data || [] };
+                }
+                
+                // Login queries for tamu
+                if (params && params.length > 0) {
+                    const { data, error } = await supabase
+                        .from('tamu')
+                        .select('*')
+                        .or(`email.eq.${params[0]},username.eq.${params[0]}`);
+                    
+                    if (error) throw error;
+                    return { rows: data || [] };
+                }
+                
+                // General tamu select
+                const { data, error } = await supabase
+                    .from('tamu')
+                    .select('*');
+                
+                if (error) throw error;
+                return { rows: data || [] };
+            }
+            
+            // Handle SELECT queries for resepsionis
+            if (query.includes('SELECT') && query.includes('FROM resepsionis')) {
+                // Get all resepsionis for dropdown
+                if (query.includes('ORDER BY nama')) {
+                    const { data, error } = await supabase
+                        .from('resepsionis')
+                        .select('id_resepsionis, nama, email, no_hp, username')
+                        .order('nama');
+                    
+                    if (error) throw error;
+                    return { rows: data || [] };
+                }
+                
+                // Login queries for resepsionis
+                if (params && params.length > 0) {
+                    const { data, error } = await supabase
+                        .from('resepsionis')
+                        .select('*')
+                        .or(`email.eq.${params[0]},username.eq.${params[0]}`);
+                    
+                    if (error) throw error;
+                    return { rows: data || [] };
+                }
+                
+                // General resepsionis select
+                const { data, error } = await supabase
+                    .from('resepsionis')
+                    .select('*');
+                
+                if (error) throw error;
+                return { rows: data || [] };
+            }
+            
             // Default fallback
             console.log('⚠️ Unhandled query pattern:', query);
             return { rows: [] };

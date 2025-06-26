@@ -1,47 +1,47 @@
 const express = require('express');
 const { pool } = require('../config/database');
 const router = express.Router();
+const { authenticateToken } = require('../middleware/auth');
+const {
+    getAllTamu,
+    getTamuById,
+    createTamu,
+    updateTamu,
+    deleteTamu,
+    loginTamu,
+    registerTamu
+} = require('../controllers/tamuController');
 
-// Get all tamu
-router.get('/', async (req, res) => {
+// Public routes
+router.post('/register', registerTamu);
+router.post('/login', loginTamu);
+
+// Add the missing /all route
+router.get('/all', async (req, res) => {
     try {
-        const result = await pool.query('SELECT * FROM tamu ORDER BY id_tamu ASC');
-
+        const result = await pool.query('SELECT id_tamu, nama, email, no_hp, username FROM tamu ORDER BY nama');
+        
         res.json({
-            success: true,
+            message: 'Tamu retrieved successfully',
             data: result.rows || []
         });
     } catch (error) {
-        console.error('Error fetching tamu:', error);
-        res.status(500).json({
-            success: false,
-            error: error.message
+        console.error('Get all tamu error:', error);
+        res.status(500).json({ 
+            error: 'Internal server error',
+            message: error.message 
         });
     }
 });
 
-// Search tamu
-router.get('/search', async (req, res) => {
-    try {
-        const { q, nama, email, no_hp } = req.query;
-        
-        let sqlQuery = 'SELECT * FROM tamu WHERE 1=1';
-        let params = [];
-        let paramIndex = 1;
-        
-        if (q) {
-            sqlQuery += ` AND (nama ILIKE $${paramIndex} OR email ILIKE $${paramIndex} OR no_hp ILIKE $${paramIndex})`;
-            params.push(`%${q}%`);
-            paramIndex++;
-        } else {
-            if (nama) {
-                sqlQuery += ` AND nama ILIKE $${paramIndex}`;
-                params.push(`%${nama}%`);
-                paramIndex++;
-            }
-            if (email) {
-                sqlQuery += ` AND email ILIKE $${paramIndex}`;
-                params.push(`%${email}%`);
+// Protected routes
+router.get('/', authenticateToken, getAllTamu);
+router.get('/:id', authenticateToken, getTamuById);
+router.post('/', authenticateToken, createTamu);
+router.put('/:id', authenticateToken, updateTamu);
+router.delete('/:id', authenticateToken, deleteTamu);
+
+module.exports = router;
                 paramIndex++;
             }
             if (no_hp) {
