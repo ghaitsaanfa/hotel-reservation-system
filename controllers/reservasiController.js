@@ -1,4 +1,4 @@
-const pool = require('../config/database');
+const { pool } = require('../config/database');
 
 // Helper function to safely parse date strings without timezone issues
 function parseLocalDate(dateInput) {

@@ -1,4 +1,4 @@
-const pool = require('../config/database');
+const { pool } = require('../config/database');
 
 // Get all guests
 const getAllTamu = async (req, res) => {
