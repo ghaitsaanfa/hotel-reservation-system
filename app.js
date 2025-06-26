@@ -62,6 +62,30 @@ app.get('/api/test', (req, res) => {
     });
 });
 
+// Debug route untuk test database connection
+app.get('/api/debug/database', async (req, res) => {
+    try {
+        const { pool } = require('./config/database');
+        
+        // Test simple query
+        const result = await pool.query('SELECT COUNT(*) as count FROM kamar');
+        
+        res.json({
+            success: true,
+            message: 'Database connection test successful',
+            kamarCount: result.rows[0].count,
+            timestamp: new Date().toISOString()
+        });
+    } catch (error) {
+        console.error('Database test error:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message,
+            stack: error.stack
+        });
+    }
+});
+
 // Debug route untuk test reservasi tanpa auth (hapus di production)
 app.get('/api/debug/reservasi', async (req, res) => {
     try {
