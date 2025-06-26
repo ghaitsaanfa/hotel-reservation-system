@@ -98,6 +98,8 @@ async function loadDashboardStats() {
             throw new Error('No authentication token found');
         }
 
+        console.log('Loading dashboard stats...');
+
         const response = await fetch('/api/admin/dashboard/stats', {
             method: 'GET',
             headers: {
@@ -106,12 +108,24 @@ async function loadDashboardStats() {
             }
         });
 
+        console.log('Dashboard response status:', response.status);
+
         if (!response.ok) {
             if (response.status === 401) {
                 handleAuthError();
                 return;
             }
-            throw new Error('Failed to fetch dashboard stats');
+            
+            // Try to get error details
+            let errorMessage = 'Failed to fetch dashboard stats';
+            try {
+                const errorData = await response.json();
+                errorMessage = errorData.error || errorData.message || errorMessage;
+            } catch (e) {
+                // If can't parse error response, use default message
+            }
+            
+            throw new Error(errorMessage);
         }
 
         const result = await response.json();
@@ -126,17 +140,35 @@ async function loadDashboardStats() {
         // Load recent reservations
         loadRecentReservations(data.reservasiTerbaru || []);
 
+        console.log('Dashboard stats loaded successfully');
+
     } catch (error) {
         console.error('Error loading dashboard stats:', error);
-        showError('Gagal memuat statistik dashboard. Menggunakan data default.');
         
-        // Show default/empty stats
-        updateStatisticsCards({});
+        // Show user-friendly error message
+        const errorMessage = error.message || 'Gagal memuat statistik dashboard';
+        console.log('Dashboard error:', errorMessage);
+        
+        // Show default/empty stats instead of failing completely
+        updateStatisticsCards({
+            totalKamar: 0,
+            kamarTersedia: 0,
+            totalTamu: 0,
+            totalResepsionis: 0,
+            reservasiHariIni: 0,
+            reservasiAktif: 0,
+            pendapatanBulan: 0
+        });
+        
+        loadRecentReservations([]);
+        
+        // Show error to user
+        showError(`${errorMessage}. Menampilkan data default.`);
     }
 }
 
 function updateStatisticsCards(data) {
-    // Update main statistics
+    // Update main statistics with safe fallbacks
     const statsElements = {
         'totalKamar': data.totalKamar || 0,
         'kamarTersedia': data.kamarTersedia || 0,
@@ -150,6 +182,8 @@ function updateStatisticsCards(data) {
         const element = document.getElementById(elementId);
         if (element) {
             element.textContent = value;
+        } else {
+            console.warn(`Element not found: ${elementId}`);
         }
     });
     
@@ -158,7 +192,11 @@ function updateStatisticsCards(data) {
     const pendapatanElement = document.getElementById('pendapatanBulan');
     if (pendapatanElement) {
         pendapatanElement.textContent = formatCurrency(pendapatan);
+    } else {
+        console.warn('pendapatanBulan element not found');
     }
+    
+    console.log('Statistics cards updated:', statsElements);
 }
 
 function loadRecentReservations(reservations) {
