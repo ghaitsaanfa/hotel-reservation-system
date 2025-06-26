@@ -62,28 +62,6 @@ app.get('/api/test', (req, res) => {
     });
 });
 
-// Simple debug route to test pool import
-app.get('/api/debug/pool', async (req, res) => {
-    try {
-        const databaseConfig = require('./config/database');
-        
-        res.json({
-            success: true,
-            message: 'Database config loaded successfully',
-            hasPool: typeof databaseConfig.pool !== 'undefined',
-            hasQuery: typeof databaseConfig.pool.query !== 'undefined',
-            exports: Object.keys(databaseConfig),
-            timestamp: new Date().toISOString()
-        });
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            error: error.message,
-            stack: error.stack
-        });
-    }
-});
-
 // Debug route untuk test reservasi tanpa auth (hapus di production)
 app.get('/api/debug/reservasi', async (req, res) => {
     try {

@@ -61,6 +61,38 @@ app.get('/api/health', (req, res) => {
     });
 });
 
+// Test endpoint
+app.get('/api/test', (req, res) => {
+    res.json({ 
+        status: 'OK', 
+        message: 'Server is running properly',
+        timestamp: new Date().toISOString(),
+        uptime: Math.floor(process.uptime()) + ' seconds'
+    });
+});
+
+// Simple debug route to test pool import
+app.get('/api/debug/pool', async (req, res) => {
+    try {
+        const databaseConfig = require('./config/database');
+        
+        res.json({
+            success: true,
+            message: 'Database config loaded successfully',
+            hasPool: typeof databaseConfig.pool !== 'undefined',
+            hasQuery: typeof databaseConfig.pool?.query !== 'undefined',
+            exports: Object.keys(databaseConfig),
+            timestamp: new Date().toISOString()
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            error: error.message,
+            stack: error.stack
+        });
+    }
+});
+
 // Default route - serve index.html
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
