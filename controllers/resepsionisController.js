@@ -27,7 +27,7 @@ const loginResepsionis = async (req, res) => {
 
         const token = jwt.sign(
             { id: resepsionis.id_resepsionis, username: resepsionis.username, role: 'resepsionis' },
-            process.env.JWT_SECRET,
+            process.env.JWT_SECRET || 'hotel-reservation-secret-key-2024',
             { expiresIn: '24h' }
         );
 

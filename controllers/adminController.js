@@ -113,7 +113,7 @@ const loginAdmin = async (req, res) => {
 
         const token = jwt.sign(
             { id: admin.id_admin, username: admin.username, role: 'admin' },
-            process.env.JWT_SECRET,
+            process.env.JWT_SECRET || 'hotel-reservation-secret-key-2024',
             { expiresIn: '24h' }
         );
 
