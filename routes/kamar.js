@@ -16,36 +16,38 @@ const {
 // Debug route for testing kamar endpoint (remove in production)
 router.get('/debug/all', async (req, res) => {
     try {
-        const { pool } = require('../config/database');
-        
-        const result = await pool.query(`
-            SELECT 
-                id_kamar,
-                no_kamar,
-                tipe,
-                harga,
-                kapasitas_maks,
-                status,
-                deskripsi_kamar
-            FROM kamar 
-            ORDER BY no_kamar
-        `);
-
-        console.log(`Debug: Retrieved ${result.rows.length} rooms`);
-
         res.json({
             success: true,
-            message: 'Debug: Rooms retrieved successfully',
-            data: result.rows,
-            debug: 'This endpoint works without authentication'
+            message: 'Debug: Kamar route is accessible',
+            timestamp: new Date().toISOString(),
+            debug: 'Simple test without database query'
         });
     } catch (error) {
-        console.error('Debug kamar error:', error);
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// Debug route for testing pool import
+router.get('/debug/pool', async (req, res) => {
+    try {
+        const databaseConfig = require('../config/database');
+        
+        res.json({
+            success: true,
+            message: 'Database config loaded in kamar route',
+            hasPool: typeof databaseConfig.pool !== 'undefined',
+            hasQuery: typeof databaseConfig.pool?.query !== 'undefined',
+            exports: Object.keys(databaseConfig),
+            timestamp: new Date().toISOString()
+        });
+    } catch (error) {
         res.status(500).json({
             success: false,
             error: error.message,
-            stack: error.stack,
-            debug: 'Debug endpoint for kamar'
+            stack: error.stack
         });
     }
 });
