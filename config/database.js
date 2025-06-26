@@ -134,13 +134,16 @@ const pool = {
             if (query.includes('SELECT id_kamar FROM kamar WHERE no_kamar = $1')) {
                 const [no_kamar] = params;
                 
-                const { data, error } = await supabase
-                    .from('kamar')
-                    .select('id_kamar')
-                    .eq('no_kamar', no_kamar);
-                
-                if (error) throw error;
-                return { rows: data || [] };
+                if (params.length === 1) {
+                    // Simple duplicate check for new room
+                    const { data, error } = await supabase
+                        .from('kamar')
+                        .select('id_kamar')
+                        .eq('no_kamar', no_kamar);
+                    
+                    if (error) throw error;
+                    return { rows: data || [] };
+                }
             }
             
             // Handle duplicate check with exclusion
@@ -169,6 +172,70 @@ const pool = {
                 
                 if (error) throw error;
                 return { rows: data || [] };
+            }
+            
+            // Handle admin dashboard stats queries
+            if (query.includes('SELECT COUNT(*) FROM reservasi WHERE tanggal_reservasi')) {
+                // Reservasi hari ini
+                const { data, error, count } = await supabase
+                    .from('reservasi')
+                    .select('*', { count: 'exact', head: true })
+                    .gte('tanggal_reservasi', params[0])
+                    .lt('tanggal_reservasi', params[1]);
+                
+                if (error) throw error;
+                return { rows: [{ count: count || 0 }] };
+            }
+            
+            if (query.includes("SELECT COUNT(*) FROM reservasi WHERE status_reservasi IN ('Dikonfirmasi', 'Check-In')")) {
+                // Reservasi aktif
+                const { data, error, count } = await supabase
+                    .from('reservasi')
+                    .select('*', { count: 'exact', head: true })
+                    .in('status_reservasi', ['Dikonfirmasi', 'Check-In']);
+                
+                if (error) throw error;
+                return { rows: [{ count: count || 0 }] };
+            }
+            
+            if (query.includes('SELECT SUM(jumlah_bayar) as total FROM pembayaran')) {
+                // Pendapatan bulan ini
+                const { data, error } = await supabase
+                    .from('pembayaran')
+                    .select('jumlah_bayar')
+                    .eq('status_pembayaran', 'Lunas')
+                    .gte('tanggal_bayar', params[0])
+                    .lt('tanggal_bayar', params[1]);
+                
+                if (error) throw error;
+                
+                const total = data?.reduce((sum, item) => sum + (item.jumlah_bayar || 0), 0) || 0;
+                return { rows: [{ total }] };
+            }
+            
+            if (query.includes('SELECT') && query.includes('FROM reservasi r') && query.includes('JOIN tamu t') && query.includes('JOIN kamar k')) {
+                // Reservasi terbaru untuk dashboard
+                const { data, error } = await supabase
+                    .from('reservasi')
+                    .select(`
+                        *,
+                        tamu:id_tamu (nama),
+                        kamar:id_kamar (no_kamar, tipe)
+                    `)
+                    .order('tanggal_reservasi', { ascending: false })
+                    .limit(5);
+                
+                if (error) throw error;
+                
+                // Transform data to match expected format
+                const transformedData = data?.map(item => ({
+                    ...item,
+                    nama_tamu: item.tamu?.nama,
+                    no_kamar: item.kamar?.no_kamar,
+                    tipe: item.kamar?.tipe
+                })) || [];
+                
+                return { rows: transformedData };
             }
             
             // Handle COUNT queries for dashboard stats

@@ -50,7 +50,7 @@ const getDashboardStats = async (req, res) => {
             [currentMonth + '-01', nextMonthStr + '-01']
         );
         
-        const pendapatanBulan = parseFloat(pembayaranResult.rows[0].total) || 0;
+        const pendapatanBulan = parseFloat(pembayaranResult.rows[0]?.total) || 0;
         
         // Get reservasi terbaru
         const reservasiTerbaruResult = await pool.query(`
@@ -76,7 +76,7 @@ const getDashboardStats = async (req, res) => {
                 reservasiHariIni: reservasiHariIni,
                 reservasiAktif: reservasiAktif,
                 pendapatanBulan: pendapatanBulan,
-                reservasiTerbaru: reservasiTerbaruResult.rows
+                reservasiTerbaru: reservasiTerbaruResult.rows || []
             }
         });
     } catch (error) {

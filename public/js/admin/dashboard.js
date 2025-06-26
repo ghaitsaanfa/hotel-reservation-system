@@ -115,7 +115,10 @@ async function loadDashboardStats() {
         }
 
         const result = await response.json();
-        const data = result.data;
+        console.log('Dashboard stats response:', result);
+        
+        // Handle both old and new response formats
+        const data = result.data || result;
 
         // Update statistics cards
         updateStatisticsCards(data);
